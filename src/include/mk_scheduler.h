@@ -52,12 +52,17 @@ struct sched_list_node
     struct mk_list busy_queue;
     struct mk_list av_queue;
 
+    struct mk_list sessions_busy;
+    struct mk_list sessions_free;
+
     short int idx;
     pthread_t tid;
     pid_t pid;
     int epoll_fd;
 
     struct client_session *request_handler;
+
+    struct client_session *session_pool;
 };
 
 struct sched_list_node *sched_list;

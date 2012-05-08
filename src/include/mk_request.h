@@ -258,6 +258,7 @@ struct client_session
     struct session_request sr_fixed;
     struct mk_list request_list;
     struct mk_list _head;
+    struct mk_list pool_head;
 };
 
 pthread_key_t request_list;

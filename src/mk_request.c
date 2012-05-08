@@ -824,6 +824,33 @@ void mk_request_free_list(struct client_session *cs)
     }
 }
 
+/* Get a free client session from the pre-allocated pool */
+static struct client_session *mk_session_get_free(struct sched_list_node *sched)
+{
+
+    if (mk_list_is_empty(&sched->sessions_free) == 0)
+        return NULL;
+
+    struct mk_list *sessions_free = &sched->sessions_free;
+
+    struct client_session *cl = mk_list_entry_first(sessions_free,
+                                                    struct client_session,
+                                                    pool_head);
+
+    mk_list_del(&cl->pool_head);
+    mk_list_add(&cl->pool_head, &sched->sessions_busy);
+
+    return cl;
+}
+
+static void mk_session_mark_free(struct client_session *cl)
+{
+    struct sched_list_node *sched = mk_sched_get_thread_conf();
+
+    mk_list_del(&cl->pool_head);
+    mk_list_add(&cl->pool_head, &sched->sessions_free);
+}
+
 /* Create a client request struct and put it on the
  * main list
  */
@@ -840,7 +867,7 @@ struct client_session *mk_session_create(int socket, struct sched_list_node *sch
     }
 
     /* Alloc memory for node */
-    cs = mk_mem_malloc(sizeof(struct client_session));
+    cs = mk_session_get_free(sched);
 
     cs->pipelined = MK_FALSE;
     cs->counter_connections = 0;
@@ -910,7 +937,7 @@ void mk_session_remove(int socket)
             if (cs_node->body != cs_node->body_fixed) {
                 mk_mem_free(cs_node->body);
             }
-            mk_mem_free(cs_node);
+            mk_session_mark_free(cs_node);
             break;
         }
     }

@@ -236,6 +236,11 @@ int mk_sched_register_thread(int efd)
     mk_list_init(&sl->busy_queue);
     mk_list_init(&sl->av_queue);
 
+    mk_list_init(&sl->sessions_busy);
+    mk_list_init(&sl->sessions_free);
+
+    sl->session_pool = mk_mem_malloc_z(sizeof(struct client_session) * config->worker_capacity);
+
     array = mk_mem_malloc_z(sizeof(struct sched_connection) * config->worker_capacity);
 
     for (i = 0; i < config->worker_capacity; i++) {
@@ -245,6 +250,7 @@ int mk_sched_register_thread(int efd)
         sched_conn->arrive_time = 0;
 
         mk_list_add(&sched_conn->_head, &sl->av_queue);
+        mk_list_add(&sl->session_pool[i].pool_head, &sl->sessions_free);
     }
     sl->request_handler = NULL;
 
