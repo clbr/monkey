@@ -688,7 +688,10 @@ mk_pointer mk_request_index(char *pathfile, char *file_aux, const unsigned int f
     mk_list_foreach(head, config->index_files) {
         entry = mk_list_entry(head, struct mk_string_line, _head);
         len = snprintf(file_aux, flen, "%s%s", pathfile, entry->val);
-        if (len > flen) len = flen;
+        if (len > flen) {
+            len = flen;
+            mk_warn("Path too long, truncated! '%s'", file_aux);
+        }
 
         if (access(file_aux, F_OK) == 0) {
             f.data = file_aux;
