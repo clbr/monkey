@@ -688,7 +688,7 @@ mk_pointer mk_request_index(char *pathfile, char *file_aux, const unsigned int f
     mk_list_foreach(head, config->index_files) {
         entry = mk_list_entry(head, struct mk_string_line, _head);
         len = snprintf(file_aux, flen, "%s%s", pathfile, entry->val);
-        file_aux[flen - 1] = '\0';
+        if (len > flen) len = flen;
 
         if (access(file_aux, F_OK) == 0) {
             f.data = file_aux;
