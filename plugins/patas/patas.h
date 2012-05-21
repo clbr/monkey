@@ -62,9 +62,6 @@ struct mk_patas_conx {
     struct mk_list _head;
 };
 
-/* Thread key to hold mk_patas_conx nodes */
-pthread_key_t _mkp_data;
-
 struct plugin_api *mk_api;
 struct mk_config *conf;
 

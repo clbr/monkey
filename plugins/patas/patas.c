@@ -46,19 +46,19 @@ MONKEY_PLUGIN("patas",               /* shortname */
               MK_PLUGIN_CORE_THCTX | MK_PLUGIN_STAGE_30); /* hook for thread context call */
 
 /* get thread connections list */
-struct mk_list *mk_patas_conx_get()
+static struct mk_list *mk_patas_conx_get()
 {
     return pthread_getspecific(_mkp_data);
 }
 
 /* set thread connections list */
-void mk_patas_conx_set(struct mk_list *list)
+static void mk_patas_conx_set(struct mk_list *list)
 {
     pthread_setspecific(_mkp_data, (void *) list);
 }
 
 /* invoked in thread context */
-void mk_patas_conx_init()
+static void mk_patas_conx_init()
 {
     struct mk_list *thread_conx_list;
 
@@ -70,7 +70,7 @@ void mk_patas_conx_init()
     mk_patas_conx_set(thread_conx_list);
 }
 
-int mk_patas_validate_node(const char *host, int port)
+static int mk_patas_validate_node(const char *host, int port)
 {
     int i, j;
     char local_addr[16], node_addr[16];
@@ -107,7 +107,7 @@ int mk_patas_validate_node(const char *host, int port)
 }
 
 /* Read configuration parameters */
-int mk_patas_conf(char *confdir)
+static int mk_patas_conf(char *confdir)
 {
     int res;
     int val_port;
@@ -383,7 +383,7 @@ int _mkp_event_read(int socket)
     return MK_PLUGIN_RET_EVENT_OWNED;
 }
 
-int hangup(int socket)
+static int hangup(int socket)
 {
     /*
      * Determinate actions to take depending on which

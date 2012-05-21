@@ -24,6 +24,7 @@
 
 #include "MKPlugin.h"
 #include "patas.h"
+#include "connection.h"
 
 struct mk_patas_conx *mk_patas_connection_create(int socket_remote, int socket_node,
                                                  struct mk_patas_node *node)
