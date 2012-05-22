@@ -78,8 +78,10 @@ typedef void (*close)(const mklib_session *, const char *);
  * With no address, bind to all.
  * With no port, use 2001.
  * With no plugins, default to MK_LIANA only.
+ * With no documentroot, the default vhost won't access files.
  */
 struct mklib_ctx mklib_init(const char *address, unsigned int port, unsigned int plugins,
+                            const char *documentroot,
                             ipcheck, urlcheck, data, close);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
