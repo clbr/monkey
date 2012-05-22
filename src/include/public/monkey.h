@@ -22,9 +22,9 @@
 
 #include <pthread.h>
 
-#define __MONKEY__
-#define __MONKEY_MINOR__
-#define __MONKEY_PATCHLEVEL__
+#define MONKEY__
+#define MONKEY_MINOR__
+#define MONKEY_PATCHLEVEL__
 
 /* ---------------------------------
  *               Data
