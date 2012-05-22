@@ -26,8 +26,9 @@
 #define __MONKEY_MINOR__
 #define __MONKEY_PATCHLEVEL__
 
-
-/* Data */
+/* ---------------------------------
+ *               Data
+ * --------------------------------- */
 
 /* Opaque pointer, not for use for the apps */
 typedef struct mklib_ctx_t* mklib_ctx;
@@ -67,7 +68,9 @@ typedef int (*data)(const mklib_session *, const char *vhost, const char *url,
 typedef void (*close)(const mklib_session *, const char *);
 
 
-/* API */
+/* ---------------------------------
+ *                API
+ * --------------------------------- */
 
 /* Returns NULL on error. All pointer arguments may be NULL and the port/plugins
  * may be 0 for the defaults in each case.
