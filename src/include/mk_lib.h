@@ -17,37 +17,15 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef MK_MONKEYLIB_H
-#define MK_MONKEYLIB_H
+#ifndef MK_LIB_H
+#define MK_LIB_H
 
-#include <pthread.h>
-
-#define __MONKEY__
-#define __MONKEY_MINOR__
-#define __MONKEY_PATCHLEVEL__
-
+#include "public/monkey.h"
 
 /* Data */
 
-struct mklib_ctx;
-
-enum {
-    MKLIB_FALSE = 0,
-    MKLIB_TRUE = 1
+struct mklib_ctx {
+    pthread_t tid;
 };
-
-/* struct session_request need not be exposed */
-typedef void mklib_session;
-
-typedef int (*ipcheck)(const char *);
-typedef int (*urlcheck)(const char *);
-typedef int (*data)(const mklib_session *, const char *, const char *, unsigned int *, char *);
-typedef void (*close)(const mklib_session *, const char *);
-
-
-/* API */
-
-struct mklib_ctx *mklib_init(const char *address, unsigned int port, unsigned int plugins,
-                             ipcheck, urlcheck, data, close);
 
 #endif
