@@ -37,6 +37,11 @@ enum {
     MKLIB_TRUE = 1
 };
 
+enum {
+    MK_LIANA = 0x1,
+    MK_LIANA_SSL = 0x2
+};
+
 /* struct session_request need not be exposed */
 typedef void mklib_session;
 
@@ -64,7 +69,22 @@ typedef void (*close)(const mklib_session *, const char *);
 
 /* API */
 
+/* Returns NULL on error. All pointer arguments may be NULL and the port/plugins
+ * may be 0 for the defaults in each case.
+ *
+ * With no address, bind to all.
+ * With no port, use 2001.
+ * With no plugins, default to MK_LIANA only.
+ */
 struct mklib_ctx mklib_init(const char *address, unsigned int port, unsigned int plugins,
                             ipcheck, urlcheck, data, close);
+
+/* NULL-terminated config call, consisting of pairs of config item and argument.
+ * Returns MKLIB_FALSE on failure. */
+int mklib_config(mklib_ctx, ...);
+
+/* NULL-terminated config call creating a vhost with *name. Returns MKLIB_FALSE
+ * on failure. */
+int mklib_vhost_config(mklib_ctx, char *name, ...);
 
 #endif
