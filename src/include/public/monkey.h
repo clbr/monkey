@@ -38,6 +38,7 @@ enum {
     MKLIB_TRUE = 1
 };
 
+/* Supported plugins, OR'ed in the init call */
 enum {
     MK_LIANA = 0x1,
     MK_LIANA_SSL = 0x2
