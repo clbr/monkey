@@ -29,7 +29,8 @@
 
 /* Data */
 
-struct mklib_ctx;
+/* Opaque pointer, not for use for the apps */
+typedef struct mklib_ctx_t* mklib_ctx;
 
 enum {
     MKLIB_FALSE = 0,
@@ -47,7 +48,7 @@ typedef void (*close)(const mklib_session *, const char *);
 
 /* API */
 
-struct mklib_ctx *mklib_init(const char *address, unsigned int port, unsigned int plugins,
-                             ipcheck, urlcheck, data, close);
+struct mklib_ctx mklib_init(const char *address, unsigned int port, unsigned int plugins,
+                            ipcheck, urlcheck, data, close);
 
 #endif
