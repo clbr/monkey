@@ -90,4 +90,10 @@ int mklib_config(mklib_ctx, ...);
  * on failure. */
 int mklib_vhost_config(mklib_ctx, char *name, ...);
 
+/* Start the server. */
+int mklib_start(mklib_ctx);
+
+/* Stop the server and free mklib_ctx. */
+int mklib_stop(mklib_ctx);
+
 #endif
