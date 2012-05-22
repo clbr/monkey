@@ -40,9 +40,25 @@ enum {
 /* struct session_request need not be exposed */
 typedef void mklib_session;
 
-typedef int (*ipcheck)(const char *);
-typedef int (*urlcheck)(const char *);
-typedef int (*data)(const mklib_session *, const char *, const char *, unsigned int *, char *);
+/* Called when a new connection arrives. Return MKLIB_FALSE to reject this connection. */
+typedef int (*ipcheck)(const char *ip);
+
+/* Called when the URL is known. Return MKLIB_FALSE to reject this connection. */
+typedef int (*urlcheck)(const char *url);
+
+/* The data callback. Return MKLIB_FALSE if you don't want to handle this URL
+ * (it will be checked against real files at this vhost's DocumentRoot).
+ *
+ * Set *content to point to the content memory (NULL-terminated). It must
+ * stay available until the close callback is called.
+ *
+ * *header has static storage of 34 bytes for any custom headers. */
+typedef int (*data)(const mklib_session *, const char *vhost, const char *url,
+                    unsigned int *status, char **content, char *header);
+
+/* This will be called after the content has been served. If you allocated
+ * any memory, you can match that memory to the mklib_session pointer and free
+ * it in this callback. */
 typedef void (*close)(const mklib_session *, const char *);
 
 
