@@ -44,6 +44,30 @@ enum {
     MKLIB_LIANA_SSL = 0x2
 };
 
+/* Config options for the main config call */
+enum {
+    MKC_WORKERS,
+    MKC_TIMEOUT,
+    MKC_PIDFILE,
+    MKC_USERDIR,
+    MKC_INDEXFILE,
+    MKC_HIDEVERSION,
+    MKC_RESUME,
+    MKC_USER,
+    MKC_KEEPALIVE,
+    MKC_KEEPALIVETIMEOUT,
+    MKC_MAXKEEPALIVEREQUEST,
+    MKC_MAXREQUESTSIZE,
+    MKC_SYMLINK,
+    MKC_DEFAULTMIMETYPE
+};
+
+/* Config options for the vhost config call */
+enum {
+    MKV_SERVERNAME,
+    MKV_DOCUMENTROOT
+};
+
 /* struct session_request need not be exposed */
 typedef void mklib_session;
 
