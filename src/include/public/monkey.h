@@ -40,8 +40,8 @@ enum {
 
 /* Supported plugins, OR'ed in the init call */
 enum {
-    MK_LIANA = 0x1,
-    MK_LIANA_SSL = 0x2
+    MKLIB_LIANA = 0x1,
+    MKLIB_LIANA_SSL = 0x2
 };
 
 /* struct session_request need not be exposed */
@@ -78,7 +78,7 @@ typedef void (*close)(const mklib_session *, const char *);
  *
  * With no address, bind to all.
  * With no port, use 2001.
- * With no plugins, default to MK_LIANA only.
+ * With no plugins, default to MKLIB_LIANA only.
  * With no documentroot, the default vhost won't access files.
  */
 struct mklib_ctx mklib_init(const char *address, unsigned int port, unsigned int plugins,
