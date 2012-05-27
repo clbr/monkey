@@ -53,7 +53,6 @@ int mk_palm_conf(char *confdir)
     mk_api->str_build(&conf_path, &len, "%s/palm.conf", confdir);
     conf = mk_api->config_create(conf_path);
 
-    r = palms;
     mk_list_foreach(head, &conf->sections) {
         section = mk_list_entry(head, struct mk_config_section, _head);
         /* Just read PALM sections */
@@ -336,7 +335,9 @@ int mk_palm_send_request(struct client_session *cs, struct session_request *sr)
     pr = mk_palm_request_get_by_http(cs->socket);
     PLUGIN_TRACE("[FD %i] Sending request to Palm Server", pr->palm_fd);
 
-    if (pr && pr->bytes_sent == 0) {
+    if (!pr) return -1;
+
+    if (pr->bytes_sent == 0) {
         PLUGIN_TRACE("Palm request: '%s'", sr->real_path.data);
 
         /* Create protocol request  */
@@ -372,7 +373,7 @@ int mk_palm_write(int socket, char *buffer, int len, int is_chunked)
     if (is_chunked == MK_TRUE) {
         mk_api->socket_cork_flag(socket, TCP_CORK_ON);
         chunk_len = snprintf(chunk_header, chunk_size - 1, "%x%s", len, MK_CRLF);
-        n = mk_api->socket_send(socket, chunk_header, chunk_len);
+        mk_api->socket_send(socket, chunk_header, chunk_len);
     }
 
     n = mk_api->socket_send(socket, buffer, len);
@@ -402,11 +403,11 @@ int mk_palm_send_end_chunk(int socket, struct mk_palm_request *pr)
 int mk_palm_cgi_status(char *data, struct session_request *sr)
 {
     int status;
-    int status_len = 3;
+    const int status_len = 3;
     int offset = 0;
-    int field_len = 8;
+    const int field_len = 8;
     char buffer[4];
-    char field[] = "Status: ";
+    const char field[] = "Status: ";
 
     if (strlen(data) <= (field_len + status_len)) {
         return 0;

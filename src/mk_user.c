@@ -118,6 +118,7 @@ int mk_user_set_uidgid()
         /* Check if user exists  */
         if ((usr = getpwnam(config->user)) == NULL) {
             mk_err("Invalid user '%s'", config->user);
+            goto out;
         }
 
         if (initgroups(config->user, usr->pw_gid) != 0) {
@@ -136,6 +137,7 @@ int mk_user_set_uidgid()
         config->is_seteuid = MK_TRUE;
     }
 
+    out:
     EUID = geteuid();
     EGID = getegid();
 
@@ -146,8 +148,8 @@ int mk_user_set_uidgid()
 int mk_user_undo_uidgid()
 {
     if (config->is_seteuid == MK_TRUE) { 
-        setegid(0);
-        seteuid(0);
+        if (setegid(0) < 0) mk_err("Can't restore effective GID");
+        if (seteuid(0) < 0) mk_err("Can't restore effective UID");
     }
     return 0;
 }
