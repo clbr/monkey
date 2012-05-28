@@ -141,7 +141,7 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
 /* Start the server. */
 int mklib_start(mklib_ctx ctx)
 {
-    if (!ctx) return MKLIB_FALSE;
+    if (!ctx || lib_running) return MKLIB_FALSE;
 
     lib_running = 1;
     ctx->tid = mk_utils_worker_spawn(mklib_run);
