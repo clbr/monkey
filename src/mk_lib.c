@@ -120,6 +120,9 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     config->default_mimetype = mk_string_dup(MIMETYPE_DEFAULT_TYPE);
     mk_mimetype_read_config();
 
+    config->worker_capacity = mk_server_worker_capacity(config->workers);
+    config->max_load = (config->worker_capacity * config->workers);
+
     /* Server listening socket */
     config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
 
