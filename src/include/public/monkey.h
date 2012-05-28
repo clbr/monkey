@@ -79,10 +79,10 @@ enum {
 typedef void mklib_session;
 
 /* Called when a new connection arrives. Return MKLIB_FALSE to reject this connection. */
-typedef int (*ipcheck)(const char *ip);
+typedef int (*ipcheck_f)(const char *ip);
 
 /* Called when the URL is known. Return MKLIB_FALSE to reject this connection. */
-typedef int (*urlcheck)(const char *url);
+typedef int (*urlcheck_f)(const char *url);
 
 /* The data callback. Return MKLIB_FALSE if you don't want to handle this URL
  * (it will be checked against real files at this vhost's DocumentRoot).
@@ -91,13 +91,13 @@ typedef int (*urlcheck)(const char *url);
  * stay available until the close callback is called.
  *
  * *header has static storage of 34 bytes for any custom headers. */
-typedef int (*data)(const mklib_session *, const char *vhost, const char *url,
+typedef int (*data_f)(const mklib_session *, const char *vhost, const char *url,
                     unsigned int *status, char **content, char *header);
 
 /* This will be called after the content has been served. If you allocated
  * any memory, you can match that memory to the mklib_session pointer and free
  * it in this callback. */
-typedef void (*close)(const mklib_session *, const char *);
+typedef void (*close_f)(const mklib_session *, const char *);
 
 
 /* ---------------------------------
@@ -114,7 +114,7 @@ typedef void (*close)(const mklib_session *, const char *);
  */
 mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
                                       unsigned int plugins, const char *documentroot,
-                                      ipcheck, urlcheck, data, close);
+                                      ipcheck_f, urlcheck_f, data_f, close_f);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */

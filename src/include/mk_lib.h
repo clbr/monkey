@@ -24,7 +24,7 @@
 
 /* Data */
 
-struct mklib_ctx {
+struct mklib_ctx_t {
     pthread_t tid;
 };
 

@@ -23,10 +23,21 @@
 #ifdef SHAREDLIB
 
 #include <mk_lib.h>
+#include <mk_utils.h>
+
+static int lib_running = 0;
 
 static void mklib_run(void)
 {
+    while (1) {
 
+        if (!lib_running) {
+            sleep(1);
+            continue;
+        }
+
+
+    }
 }
 
 /* Returns NULL on error. All pointer arguments may be NULL and the port/plugins
@@ -39,7 +50,7 @@ static void mklib_run(void)
  */
 mklib_ctx mklib_init(const char *address, unsigned int port,
                    unsigned int plugins, const char *documentroot,
-                   ipcheck ipf, urlcheck urlf, data dataf, close closef)
+                   ipcheck_f ipf, urlcheck_f urlf, data_f dataf, close_f closef)
 {
 
 }
@@ -66,6 +77,7 @@ int mklib_start(mklib_ctx ctx)
 {
     if (!ctx) return MKLIB_FALSE;
 
+    lib_running = 1;
 }
 
 /* Stop the server and free mklib_ctx. */
@@ -73,6 +85,10 @@ int mklib_stop(mklib_ctx ctx)
 {
     if (!ctx) return MKLIB_FALSE;
 
+    lib_running = 0;
+    pthread_cancel(ctx->tid);
+
+    // TODO: kill the workers here
 }
 
 #endif
