@@ -32,6 +32,7 @@
 #include <mk_plugin.h>
 #include <dlfcn.h>
 #include <mk_clock.h>
+#include <mk_mimetype.h>
 
 static int lib_running = 0;
 
@@ -113,6 +114,11 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
 
     if (port) config->serverport = port;
     if (address) config->listen_addr = strdup(address);
+
+    config->server_software.data = "";
+    config->server_software.len = 0;
+    config->default_mimetype = mk_string_dup(MIMETYPE_DEFAULT_TYPE);
+    mk_mimetype_read_config();
 
     /* Server listening socket */
     config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
