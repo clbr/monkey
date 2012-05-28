@@ -173,6 +173,7 @@ main()
         echo
         echo -e "PREFIX\t\t= $prefix"
         echo -e "BINDIR\t\t= $bindir"
+        echo -e "LIBDIR\t\t= $libdir"
         echo -e "SYSCONFDIR\t= $sysconfdir"
         echo -e "DATADIR\t\t= $datadir"
         echo -e "MANDIR\t\t= $mandir"
@@ -327,6 +328,7 @@ cat > Makefile <<EOF
 export monkey_root=\$(CURDIR)
 PREFIX=\$(DESTDIR)${prefix}
 BINDIR=\$(DESTDIR)${bindir}
+LIBDIR=\$(DESTDIR)${libdir}
 MANDIR=\$(DESTDIR)${mandir}
 SYSCONFDIR=\$(DESTDIR)${sysconfdir}
 DATADIR=\$(DESTDIR)${datadir}
@@ -394,7 +396,7 @@ elif [ $platform == "android" ]; then
 fi
 
 if [ -n "$sharedlib" ]; then
-    maintarget="all: ../bin/$SONAME"
+    maintarget="all: $SONAME"
 else
     maintarget="all: ../bin/monkey"
 fi
@@ -609,6 +611,7 @@ cat > $INCDIR/config.path <<EOF
 #!/bin/sh
 prefix=$prefix
 bindir=$bindir
+libdir=$libdir
 sysconfdir=$sysconfdir
 datadir=$datadir
 logdir=$logdir
@@ -738,6 +741,7 @@ aux=`pwd`
 
 prefix="$aux"
 bindir="$aux/bin"
+libdir="$aux/lib"
 mandir="$aux/man"
 sysconfdir="$aux/conf"
 datadir="$aux/htdocs"
@@ -765,6 +769,7 @@ for arg in $*; do
 		--prefix*)
 			prefix=$optarg
 			bindir="$optarg/bin"
+			libdir="$optarg/lib"
                         mandir="$optarg/man"
 			sysconfdir="$optarg/conf"
 			datadir="$optarg/htdocs"
@@ -782,6 +787,9 @@ for arg in $*; do
 			;;
 		--datadir*)
 			datadir=$optarg
+			;;
+		--libdir*)
+			libdir=$optarg
 			;;
 		--logdir*)
 			logdir=$optarg
@@ -847,6 +855,7 @@ for arg in $*; do
                         echo "Installation Directories:"
 			echo "  --prefix=PREFIX         Root prefix directory"
 			echo "  --bindir=BINDIR         Binary files (executables)"
+			echo "  --libdir=LIBDIR         Libraries"
 			echo "  --sysconfdir=SYSCONFDIR Configuration files"
 			echo "  --datadir=DATADIR       Specific Monkey data files"
                         echo "  --mandir=MANDIR         Manpages - documentation"
