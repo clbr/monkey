@@ -196,6 +196,4 @@ int main(int argc, char **argv)
     mk_mem_free(config);
     return 0;
 }
-#else
-
 #endif
