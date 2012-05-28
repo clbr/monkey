@@ -37,7 +37,7 @@ static void mklib_run(void)
  * With no plugins, default to MKLIB_LIANA only.
  * With no documentroot, the default vhost won't access files.
  */
-struct mklib_ctx mklib_init(const char *address, unsigned int port,
+mklib_ctx mklib_init(const char *address, unsigned int port,
                    unsigned int plugins, const char *documentroot,
                    ipcheck ipf, urlcheck urlf, data dataf, close closef)
 {
