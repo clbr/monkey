@@ -31,6 +31,7 @@
 #include <mk_string.h>
 #include <mk_plugin.h>
 #include <dlfcn.h>
+#include <mk_clock.h>
 
 static int lib_running = 0;
 
@@ -114,7 +115,15 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     if (address) config->listen_addr = strdup(address);
 
     /* Server listening socket */
-//    config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
+    config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
+
+    /* Clock thread */
+    a->clock = mk_utils_worker_spawn((void *) mk_clock_worker_init);
+
+    mk_mem_pointers_init();
+    mk_thread_keys_init();
+
+    mk_plugin_core_process();
 
     return a;
 }
@@ -172,6 +181,7 @@ int mklib_stop(mklib_ctx ctx)
     // TODO: kill the workers here
 
     free(ctx);
+    free(config);
 
     return MKLIB_TRUE;
 }
