@@ -613,6 +613,7 @@ cat > $INCDIR/mk_info.h <<EOF
                                 __MONKEY_PATCHLEVEL__)
 #define VERSION "$__MONKEY__.$__MONKEY_MINOR__.$__MONKEY_PATCHLEVEL__"
 #define MONKEY_PATH_CONF "$sysconfdir"
+#define PLUGDIR "$plugdir"
 
 #endif
 EOF
