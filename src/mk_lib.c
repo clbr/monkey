@@ -33,6 +33,7 @@
 #include <dlfcn.h>
 #include <mk_clock.h>
 #include <mk_mimetype.h>
+#include <mk_server.h>
 
 static int lib_running = 0;
 
@@ -173,6 +174,13 @@ int mklib_start(mklib_ctx ctx)
 {
     if (!ctx || lib_running) return MKLIB_FALSE;
 
+    ctx->workers = mk_mem_malloc_z(sizeof(pthread_t) * config->workers);
+
+    int i;
+    for (i = 0; i < config->workers; i++) {
+        mk_sched_launch_thread(config->worker_capacity, &ctx->workers[i]);
+    }
+
     lib_running = 1;
     ctx->tid = mk_utils_worker_spawn(mklib_run);
 
@@ -187,7 +195,10 @@ int mklib_stop(mklib_ctx ctx)
     lib_running = 0;
     pthread_cancel(ctx->tid);
 
-    // TODO: kill the workers here
+    int i;
+    for (i = 0; i < config->workers; i++) {
+        pthread_cancel(ctx->workers[i]);
+    }
 
     free(ctx);
     free(config);
