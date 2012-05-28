@@ -24,6 +24,10 @@
 
 #include <mk_lib.h>
 
+static void mklib_run(void)
+{
+
+}
 
 /* Returns NULL on error. All pointer arguments may be NULL and the port/plugins
  * may be 0 for the defaults in each case.
