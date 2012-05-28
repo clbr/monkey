@@ -94,7 +94,7 @@ int mklib_start(mklib_ctx ctx)
 /* Stop the server and free mklib_ctx. */
 int mklib_stop(mklib_ctx ctx)
 {
-    if (!ctx) return MKLIB_FALSE;
+    if (!ctx || !lib_running) return MKLIB_FALSE;
 
     lib_running = 0;
     pthread_cancel(ctx->tid);
