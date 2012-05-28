@@ -41,6 +41,7 @@ static void mklib_run(void *p)
         }
 
         puts("Hey pretty!");
+        sleep(1);
     }
 }
 
