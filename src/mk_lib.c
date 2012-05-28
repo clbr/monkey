@@ -22,13 +22,17 @@
 /* Only built for the library */
 #ifdef SHAREDLIB
 
+#include <stdio.h>
 #include <mk_lib.h>
 #include <mk_utils.h>
+#include <mk_memory.h>
 
 static int lib_running = 0;
 
-static void mklib_run(void)
+static void mklib_run(void *p)
 {
+    mk_utils_worker_rename("libmonkey");
+
     while (1) {
 
         if (!lib_running) {
@@ -36,7 +40,7 @@ static void mklib_run(void)
             continue;
         }
 
-
+        puts("Hey pretty!");
     }
 }
 
@@ -52,7 +56,10 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
                    unsigned int plugins, const char *documentroot,
                    ipcheck_f ipf, urlcheck_f urlf, data_f dataf, close_f closef)
 {
+    mklib_ctx a = mk_mem_malloc_z(sizeof(struct mklib_ctx_t));
+    if (!a) return MKLIB_FALSE;
 
+    return a;
 }
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
@@ -61,7 +68,7 @@ int mklib_config(mklib_ctx ctx, ...)
 {
     if (!ctx) return MKLIB_FALSE;
 
-
+    return MKLIB_TRUE;
 }
 
 /* NULL-terminated config call creating a vhost with *name. Returns MKLIB_FALSE
@@ -70,6 +77,7 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
 {
     if (!ctx) return MKLIB_FALSE;
 
+    return MKLIB_TRUE;
 }
 
 /* Start the server. */
@@ -78,6 +86,9 @@ int mklib_start(mklib_ctx ctx)
     if (!ctx) return MKLIB_FALSE;
 
     lib_running = 1;
+    ctx->tid = mk_utils_worker_spawn(mklib_run);
+
+    return MKLIB_TRUE;
 }
 
 /* Stop the server and free mklib_ctx. */
@@ -89,6 +100,10 @@ int mklib_stop(mklib_ctx ctx)
     pthread_cancel(ctx->tid);
 
     // TODO: kill the workers here
+
+    free(ctx);
+
+    return MKLIB_TRUE;
 }
 
 #endif
