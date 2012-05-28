@@ -423,11 +423,11 @@ $maintarget
 ../bin/monkey: \$(OBJ)
 	\$(CC_QUIET) \$(CFLAGS) \$(DEFS) \$(LDFLAGS) -o \$@ \$(OBJ) $mod_obj \$(LIBS)
 
-../bin/$SONAME: \$(OBJ)
+$SONAME: \$(OBJ)
 	\$(CC_QUIET) \$(CFLAGS) \$(DEFS) \$(LDFLAGS) -Wl,-soname,$SONAME -shared -o \$@ \$(OBJ) $mod_obj \$(LIBS)
 
 clean:
-	rm -rf *.[od]
+	rm -rf *.[od] $SONAME
 	rm -rf ../bin/monkey
 
 distclean:
