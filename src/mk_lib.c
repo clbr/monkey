@@ -92,17 +92,22 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     mk_plugin_init();
 
     if (plugins & MKLIB_LIANA_SSL) {
-        config->transport_layer = "liana_ssl";
+        config->transport_layer = strdup("liana_ssl");
         if (!load_networking(PLUGDIR"/monkey-liana_ssl.so")) return MKLIB_FALSE;
     }
-    else
-    {
-        config->transport_layer = "liana";
+    else {
+        config->transport_layer = strdup("liana");
         if (!load_networking(PLUGDIR"/monkey-liana.so")) return MKLIB_FALSE;
     }
 
     if (!plg_netiomap) return MKLIB_FALSE;
     mk_plugin_preworker_calls();
+
+    if (port) config->serverport = port;
+    if (address) config->listen_addr = strdup(address);
+
+    /* Server listening socket */
+    config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
 
     return a;
 }
