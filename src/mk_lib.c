@@ -54,6 +54,7 @@ static int load_networking(char *path)
 {
     void *handle;
     struct plugin *p;
+    int ret;
 
     handle = mk_plugin_load(path);
     if (!handle) return MKLIB_FALSE;
@@ -61,6 +62,12 @@ static int load_networking(char *path)
     p = mk_plugin_alloc(handle, path);
     if (!p) {
         dlclose(handle);
+        return MKLIB_FALSE;
+    }
+
+    ret = p->init(&api, "");
+    if (ret < 0) {
+        mk_plugin_free(p);
         return MKLIB_FALSE;
     }
 
@@ -107,7 +114,7 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     if (address) config->listen_addr = strdup(address);
 
     /* Server listening socket */
-    config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
+//    config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
 
     return a;
 }
