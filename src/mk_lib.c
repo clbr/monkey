@@ -39,7 +39,10 @@ static int lib_running = 0;
 
 static void mklib_run(void *p)
 {
+    int remote_fd, ret;
+
     mk_utils_worker_rename("libmonkey");
+    mk_socket_set_tcp_defer_accept(config->server_fd);
 
     while (1) {
 
@@ -48,8 +51,11 @@ static void mklib_run(void *p)
             continue;
         }
 
-        puts("Hey pretty!");
-        sleep(1);
+        remote_fd = mk_socket_accept(config->server_fd);
+        if (remote_fd == -1) continue;
+
+        ret = mk_sched_add_client(remote_fd);
+        if (ret == -1) close(remote_fd);
     }
 }
 
@@ -115,6 +121,32 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
 
     if (port) config->serverport = port;
     if (address) config->listen_addr = strdup(address);
+
+    unsigned long len;
+    struct host *host = mk_mem_malloc_z(sizeof(struct host));
+    mk_list_init(&host->error_pages);
+    mk_list_init(&host->server_names);
+    mk_string_build(&host->host_signature, &len, "libmonkey");
+    mk_string_build(&host->header_host_signature.data,
+                    &host->header_host_signature.len,
+                    "Server: %s", host->host_signature);
+
+    struct host_alias *alias = mk_mem_malloc_z(sizeof(struct host_alias));
+    mk_string_build(&alias->name, &len, config->listen_addr);
+    alias->len = strlen(config->listen_addr);
+    mk_list_add(&alias->_head, &host->server_names);
+
+    mk_list_add(&host->_head, &config->hosts);
+    config->nhosts++;
+
+    if (documentroot) {
+        host->documentroot.data = strdup(documentroot);
+        host->documentroot.len = strlen(documentroot);
+    }
+    else {
+        host->documentroot.data = "/dev/null";
+        host->documentroot.len = sizeof("/dev/null") - 1;
+    }
 
     config->server_software.data = "";
     config->server_software.len = 0;
