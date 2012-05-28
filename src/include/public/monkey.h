@@ -22,6 +22,13 @@
 
 #include <pthread.h>
 
+/* For the internal build */
+#ifdef SHAREDLIB
+ #include <mk_macros.h>
+#else
+ #define MK_EXPORT
+#endif
+
 #define MONKEY__
 #define MONKEY_MINOR__
 #define MONKEY_PATCHLEVEL__
@@ -105,22 +112,22 @@ typedef void (*close)(const mklib_session *, const char *);
  * With no plugins, default to MKLIB_LIANA only.
  * With no documentroot, the default vhost won't access files.
  */
-struct mklib_ctx mklib_init(const char *address, unsigned int port, unsigned int plugins,
-                            const char *documentroot,
-                            ipcheck, urlcheck, data, close);
+struct mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
+                                      unsigned int plugins, const char *documentroot,
+                                      ipcheck, urlcheck, data, close);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */
-int mklib_config(mklib_ctx, ...);
+int MK_EXPORT mklib_config(mklib_ctx, ...);
 
 /* NULL-terminated config call creating a vhost with *name. Returns MKLIB_FALSE
  * on failure. */
-int mklib_vhost_config(mklib_ctx, char *name, ...);
+int MK_EXPORT mklib_vhost_config(mklib_ctx, char *name, ...);
 
 /* Start the server. */
-int mklib_start(mklib_ctx);
+int MK_EXPORT mklib_start(mklib_ctx);
 
 /* Stop the server and free mklib_ctx. */
-int mklib_stop(mklib_ctx);
+int MK_EXPORT mklib_stop(mklib_ctx);
 
 #endif
