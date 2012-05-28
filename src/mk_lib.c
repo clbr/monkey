@@ -26,6 +26,11 @@
 #include <mk_lib.h>
 #include <mk_utils.h>
 #include <mk_memory.h>
+#include <mk_config.h>
+#include <mk_info.h>
+#include <mk_string.h>
+#include <mk_plugin.h>
+#include <dlfcn.h>
 
 static int lib_running = 0;
 
@@ -45,6 +50,24 @@ static void mklib_run(void *p)
     }
 }
 
+static int load_networking(char *path)
+{
+    void *handle;
+    struct plugin *p;
+
+    handle = mk_plugin_load(path);
+    if (!handle) return MKLIB_FALSE;
+
+    p = mk_plugin_alloc(handle, path);
+    if (!p) {
+        dlclose(handle);
+        return MKLIB_FALSE;
+    }
+
+    mk_plugin_register(p);
+    return MKLIB_TRUE;
+}
+
 /* Returns NULL on error. All pointer arguments may be NULL and the port/plugins
  * may be 0 for the defaults in each case.
  *
@@ -60,6 +83,25 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     mklib_ctx a = mk_mem_malloc_z(sizeof(struct mklib_ctx_t));
     if (!a) return MKLIB_FALSE;
 
+    config = mk_mem_malloc_z(sizeof(struct server_config));
+    if (!config) return MKLIB_FALSE;
+
+    config->serverconf = MONKEY_PATH_CONF;
+    mk_config_set_init_values();
+    mk_sched_init();
+    mk_plugin_init();
+
+    if (plugins & MKLIB_LIANA_SSL) {
+        if (!load_networking("")) return MKLIB_FALSE;
+    }
+    else
+    {
+        if (!load_networking("")) return MKLIB_FALSE;
+    }
+
+    if (!plg_netiomap) return MKLIB_FALSE;
+    mk_plugin_preworker_calls();
+
     return a;
 }
 
@@ -68,6 +110,19 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
 int mklib_config(mklib_ctx ctx, ...)
 {
     if (!ctx) return MKLIB_FALSE;
+
+    unsigned long len;
+    /* Basic server information */
+    if (config->hideversion == MK_FALSE) {
+        mk_string_build(&config->server_software.data,
+                        &len, "Monkey/%s (%s)", VERSION, OS);
+        config->server_software.len = len;
+    }
+    else {
+        mk_string_build(&config->server_software.data, &len, "Monkey Server");
+        config->server_software.len = len;
+    }
+
 
     return MKLIB_TRUE;
 }
