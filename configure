@@ -371,8 +371,8 @@ $plglist
 	install -m 644 ./man/monkey-api.3 \$(MANDIR)/man3
 	install -m 644 ./htdocs/*.* \$(DATADIR)
 	install -m 644 ./htdocs/imgs/*.* \${DATADIR}/imgs
-	$STRIP \$(BINDIR)/monkey
-	$STRIP \${PLUGINDIR}/*
+	-$STRIP --strip-unneeded \$(BINDIR)/monkey
+	-$STRIP --strip-unneeded \${PLUGINDIR}/*
 	@echo
 	@echo  " Running Monkey :"
 	@echo  " ----------------"
