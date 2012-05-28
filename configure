@@ -23,6 +23,7 @@ __MONKEY_MINOR__="0"
 __MONKEY_PATCHLEVEL__="0"
 
 VERSION="$__MONKEY__.$__MONKEY_MINOR__.$__MONKEY_PATCHLEVEL__"
+SONAME="libmonkey.so.$__MONKEY__.$__MONKEY_MINOR__"
 SYSNAME=`uname -s`
 SYSINFO=`uname -sr`
 INCDIR="src/include/"
@@ -393,7 +394,7 @@ elif [ $platform == "android" ]; then
 fi
 
 if [ -n "$sharedlib" ]; then
-    maintarget="all: ../bin/libmonkey.so"
+    maintarget="all: ../bin/$SONAME"
 else
     maintarget="all: ../bin/monkey"
 fi
@@ -422,8 +423,8 @@ $maintarget
 ../bin/monkey: \$(OBJ)
 	\$(CC_QUIET) \$(CFLAGS) \$(DEFS) \$(LDFLAGS) -o \$@ \$(OBJ) $mod_obj \$(LIBS)
 
-../bin/libmonkey.so: \$(OBJ)
-	\$(CC_QUIET) \$(CFLAGS) \$(DEFS) \$(LDFLAGS) -shared -o \$@ \$(OBJ) $mod_obj \$(LIBS)
+../bin/$SONAME: \$(OBJ)
+	\$(CC_QUIET) \$(CFLAGS) \$(DEFS) \$(LDFLAGS) -Wl,-soname,$SONAME -shared -o \$@ \$(OBJ) $mod_obj \$(LIBS)
 
 clean:
 	rm -rf *.[od]
