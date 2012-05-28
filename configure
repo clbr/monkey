@@ -323,7 +323,13 @@ done;
 plgconf=`cat plugins.conf`
 rm -rf plugins.conf
 
-[ -n "$sharedlib" ] && incinstall="	install -m 644 src/include/public/* \$(INCDIR)"
+if [ -n "$sharedlib" ]; then
+    incinstall="	install -m 644 src/include/public/* \$(INCDIR)"
+
+    # Set up the pkgconfig file
+    sed -e "s@PREFIX@$prefix@" -e "s@LIBDIR@$libdir@" -e "s@INCDIR@$incdir@" \
+    -e "s@VERSION@$VERSION@" monkey.pc.in > monkey.pc
+fi
 
 cat > Makefile <<EOF
 # Monkey HTTP Daemon: Makefile
@@ -347,6 +353,7 @@ all:
 clean:
 	@(cd src; \$(MAKE) clean)
 	@(cd plugins; \$(MAKE) clean)
+	@rm -f monkey.pc
 
 distclean:
 	@(cd src; \$(MAKE) distclean)
@@ -354,7 +361,7 @@ distclean:
 install:
 	\$(MAKE) -C src all
 	install -d \$(BINDIR)
-	install -d \$(LIBDIR)
+	install -d \$(LIBDIR)/pkgconfig
 	install -d \$(INCDIR)
 	install -d \$(MANDIR)/man1
 	install -d \$(MANDIR)/man3
@@ -379,6 +386,7 @@ $plglist
 	install -m 644 ./htdocs/imgs/*.* \${DATADIR}/imgs
 $incinstall
 	-install -m 644 src/$SONAME \$(LIBDIR)
+	-install -m 644 monkey.pc \$(LIBDIR)/pkgconfig
 	-ln -s $SONAME \$(LIBDIR)/libmonkey.so
 	-$STRIP --strip-unneeded \$(LIBDIR)/$SONAME
 	-$STRIP --strip-unneeded \$(BINDIR)/monkey
