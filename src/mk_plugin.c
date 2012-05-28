@@ -293,17 +293,7 @@ void mk_plugin_free(struct plugin *p)
 
 void mk_plugin_init()
 {
-    int ret;
-    char *path;
-    char *plugin_confdir = 0;
-    void *handle;
-    unsigned long len;
-    struct plugin *p;
     struct plugin_api *api;
-    struct mk_config *cnf;
-    struct mk_config_section *section;
-    struct mk_config_entry *entry;
-    struct mk_list *head;
 
     api = mk_mem_malloc_z(sizeof(struct plugin_api));
     plg_stagemap = mk_mem_malloc_z(sizeof(struct plugin_stagemap));
@@ -413,6 +403,22 @@ void mk_plugin_init()
     api->stacktrace = (void *) mk_utils_stacktrace;
 #endif
 
+    api->plugins = config->plugins;
+}
+
+void mk_plugin_read_config()
+{
+    int ret;
+    char *path;
+    char *plugin_confdir = 0;
+    void *handle;
+    unsigned long len;
+    struct plugin *p;
+    struct mk_config *cnf;
+    struct mk_config_section *section;
+    struct mk_config_entry *entry;
+    struct mk_list *head;
+
     /* Read configuration file */
     path = mk_mem_malloc_z(1024);
     snprintf(path, 1024, "%s/%s", config->serverconf, MK_PLUGIN_LOAD);
@@ -482,8 +488,6 @@ void mk_plugin_init()
         }
         exit(EXIT_FAILURE);
     }
-
-    api->plugins = config->plugins;
 
     /* Look for plugins thread key data */
     mk_plugin_preworker_calls();

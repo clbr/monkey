@@ -318,6 +318,7 @@ struct plugin_info {
 };
 
 void mk_plugin_init();
+void mk_plugin_read_config();
 void mk_plugin_exit_all();
 
 void mk_plugin_event_init_list();
