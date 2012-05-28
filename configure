@@ -174,6 +174,7 @@ main()
         echo -e "PREFIX\t\t= $prefix"
         echo -e "BINDIR\t\t= $bindir"
         echo -e "LIBDIR\t\t= $libdir"
+        echo -e "INCDIR\t\t= $incdir"
         echo -e "SYSCONFDIR\t= $sysconfdir"
         echo -e "DATADIR\t\t= $datadir"
         echo -e "MANDIR\t\t= $mandir"
@@ -616,6 +617,7 @@ cat > $INCDIR/config.path <<EOF
 prefix=$prefix
 bindir=$bindir
 libdir=$libdir
+incdir=$incdir
 sysconfdir=$sysconfdir
 datadir=$datadir
 logdir=$logdir
@@ -746,6 +748,7 @@ aux=`pwd`
 prefix="$aux"
 bindir="$aux/bin"
 libdir="$aux/lib"
+incdir=""
 mandir="$aux/man"
 sysconfdir="$aux/conf"
 datadir="$aux/htdocs"
@@ -774,6 +777,7 @@ for arg in $*; do
 			prefix=$optarg
 			bindir="$optarg/bin"
 			libdir="$optarg/lib"
+			incdir="$optarg/include"
                         mandir="$optarg/man"
 			sysconfdir="$optarg/conf"
 			datadir="$optarg/htdocs"
@@ -794,6 +798,9 @@ for arg in $*; do
 			;;
 		--libdir*)
 			libdir=$optarg
+			;;
+		--incdir*)
+			incdir=$optarg
 			;;
 		--logdir*)
 			logdir=$optarg
@@ -860,6 +867,7 @@ for arg in $*; do
 			echo "  --prefix=PREFIX         Root prefix directory"
 			echo "  --bindir=BINDIR         Binary files (executables)"
 			echo "  --libdir=LIBDIR         Libraries"
+			echo "  --incdir=INCDIR         Header install path"
 			echo "  --sysconfdir=SYSCONFDIR Configuration files"
 			echo "  --datadir=DATADIR       Specific Monkey data files"
                         echo "  --mandir=MANDIR         Manpages - documentation"
