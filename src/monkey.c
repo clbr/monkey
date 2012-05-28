@@ -95,6 +95,7 @@ static void mk_help(int rc)
     exit(rc);
 }
 
+#ifndef SHAREDLIB
 /* MAIN */
 int main(int argc, char **argv)
 {
@@ -195,3 +196,6 @@ int main(int argc, char **argv)
     mk_mem_free(config);
     return 0;
 }
+#else
+
+#endif
