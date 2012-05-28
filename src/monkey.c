@@ -58,6 +58,7 @@ static void mk_thread_keys_init(void)
     pthread_key_create(&mk_plugin_event_k, NULL);
 }
 
+#ifndef SHAREDLIB
 static void mk_details(void)
 {
     printf("* Process ID is %i", getpid());
@@ -95,7 +96,6 @@ static void mk_help(int rc)
     exit(rc);
 }
 
-#ifndef SHAREDLIB
 /* MAIN */
 int main(int argc, char **argv)
 {
