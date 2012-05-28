@@ -60,7 +60,6 @@ enum {
     MKC_INDEXFILE,
     MKC_HIDEVERSION,
     MKC_RESUME,
-    MKC_USER,
     MKC_KEEPALIVE,
     MKC_KEEPALIVETIMEOUT,
     MKC_MAXKEEPALIVEREQUEST,
@@ -113,8 +112,8 @@ typedef void (*close_f)(const mklib_session *, const char *);
  * With no documentroot, the default vhost won't access files.
  */
 mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
-                                      unsigned int plugins, const char *documentroot,
-                                      ipcheck_f, urlcheck_f, data_f, close_f);
+                               unsigned int plugins, const char *documentroot,
+                               ipcheck_f, urlcheck_f, data_f, close_f);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */

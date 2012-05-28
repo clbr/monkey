@@ -86,8 +86,8 @@ static int load_networking(char *path)
  * With no documentroot, the default vhost won't access files.
  */
 mklib_ctx mklib_init(const char *address, unsigned int port,
-                   unsigned int plugins, const char *documentroot,
-                   ipcheck_f ipf, urlcheck_f urlf, data_f dataf, close_f closef)
+                     unsigned int plugins, const char *documentroot,
+                     ipcheck_f ipf, urlcheck_f urlf, data_f dataf, close_f closef)
 {
     mklib_ctx a = mk_mem_malloc_z(sizeof(struct mklib_ctx_t));
     if (!a) return MKLIB_FALSE;
