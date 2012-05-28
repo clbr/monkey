@@ -350,6 +350,7 @@ distclean:
 install:
 	\$(MAKE) -C src all
 	install -d \$(BINDIR)
+	install -d \$(LIBDIR)
 	install -d \$(MANDIR)/man1
 	install -d \$(MANDIR)/man3
 	install -d \$(SYSCONFDIR)
@@ -371,6 +372,9 @@ $plglist
 	install -m 644 ./man/monkey-api.3 \$(MANDIR)/man3
 	install -m 644 ./htdocs/*.* \$(DATADIR)
 	install -m 644 ./htdocs/imgs/*.* \${DATADIR}/imgs
+	-install -m 644 src/$SONAME \$(LIBDIR)
+	-ln -s $SONAME \$(LIBDIR)/libmonkey.so
+	-$STRIP --strip-unneeded \$(LIBDIR)/$SONAME
 	-$STRIP --strip-unneeded \$(BINDIR)/monkey
 	-$STRIP --strip-unneeded \${PLUGINDIR}/*
 	@echo
