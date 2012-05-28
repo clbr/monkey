@@ -323,6 +323,8 @@ done;
 plgconf=`cat plugins.conf`
 rm -rf plugins.conf
 
+[ -n "$sharedlib" ] && incinstall="	install -m 644 src/include/public/* \$(INCDIR)"
+
 cat > Makefile <<EOF
 # Monkey HTTP Daemon: Makefile
 # ============================
@@ -330,6 +332,7 @@ export monkey_root=\$(CURDIR)
 PREFIX=\$(DESTDIR)${prefix}
 BINDIR=\$(DESTDIR)${bindir}
 LIBDIR=\$(DESTDIR)${libdir}
+INCDIR=\$(DESTDIR)${incdir}
 MANDIR=\$(DESTDIR)${mandir}
 SYSCONFDIR=\$(DESTDIR)${sysconfdir}
 DATADIR=\$(DESTDIR)${datadir}
@@ -352,6 +355,7 @@ install:
 	\$(MAKE) -C src all
 	install -d \$(BINDIR)
 	install -d \$(LIBDIR)
+	install -d \$(INCDIR)
 	install -d \$(MANDIR)/man1
 	install -d \$(MANDIR)/man3
 	install -d \$(SYSCONFDIR)
@@ -373,6 +377,7 @@ $plglist
 	install -m 644 ./man/monkey-api.3 \$(MANDIR)/man3
 	install -m 644 ./htdocs/*.* \$(DATADIR)
 	install -m 644 ./htdocs/imgs/*.* \${DATADIR}/imgs
+$incinstall
 	-install -m 644 src/$SONAME \$(LIBDIR)
 	-ln -s $SONAME \$(LIBDIR)/libmonkey.so
 	-$STRIP --strip-unneeded \$(LIBDIR)/$SONAME
