@@ -48,6 +48,8 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
  * Returns MKLIB_FALSE on failure. */
 int mklib_config(mklib_ctx ctx, ...)
 {
+    if (!ctx) return MKLIB_FALSE;
+
 
 }
 
@@ -55,18 +57,21 @@ int mklib_config(mklib_ctx ctx, ...)
  * on failure. */
 int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
 {
+    if (!ctx) return MKLIB_FALSE;
 
 }
 
 /* Start the server. */
 int mklib_start(mklib_ctx ctx)
 {
+    if (!ctx) return MKLIB_FALSE;
 
 }
 
 /* Stop the server and free mklib_ctx. */
 int mklib_stop(mklib_ctx ctx)
 {
+    if (!ctx) return MKLIB_FALSE;
 
 }
 
