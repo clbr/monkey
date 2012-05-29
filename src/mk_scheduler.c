@@ -188,6 +188,10 @@ static void *mk_sched_launch_worker_loop(void *thread_conf)
 
     thinfo = &sched_list[wid];
 
+#ifdef SHAREDLIB
+    thinfo->ctx = thconf->ctx;
+#endif
+
     /* Rename worker */
     mk_string_build(&thread_name, &len, "monkey: wrk/%i", thinfo->idx);
     mk_utils_worker_rename(thread_name);
@@ -255,7 +259,7 @@ int mk_sched_register_thread(int efd)
  * Create thread which will be listening
  * for incomings file descriptors
  */
-int mk_sched_launch_thread(int max_events, pthread_t *tout)
+int mk_sched_launch_thread(int max_events, pthread_t *tout, mklib_ctx ctx)
 {
     int efd;
     pthread_t tid;
@@ -272,6 +276,9 @@ int mk_sched_launch_thread(int max_events, pthread_t *tout)
     thconf->epoll_fd = efd;
     thconf->epoll_max_events = max_events*2;
     thconf->max_events = max_events;
+#ifdef SHAREDLIB
+    thconf->ctx = ctx;
+#endif
 
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);

@@ -74,7 +74,7 @@ void mk_server_launch_workers()
 
     /* Launch workers */
     for (i = 0; i < config->workers; i++) {
-        mk_sched_launch_thread(config->worker_capacity, &skip);
+        mk_sched_launch_thread(config->worker_capacity, &skip, NULL);
     }
 }
 

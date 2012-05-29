@@ -524,6 +524,22 @@ int mk_plugin_stage_run(unsigned int hook,
     int ret;
     struct plugin_stagem *stm;
 
+#ifdef SHAREDLIB
+    struct sched_list_node *thconf = mk_sched_get_thread_conf();
+    mklib_ctx ctx = thconf->ctx;
+
+    if (hook & MK_PLUGIN_STAGE_10 && ctx->ipf) {
+        ret = ctx->ipf("1234556");
+        if (ret == MKLIB_FALSE) return MK_PLUGIN_RET_CLOSE_CONX;
+    }
+
+    if (hook & MK_PLUGIN_STAGE_20 && ctx->urlf) {
+        ret = ctx->urlf("localhost");
+        if (ret == MKLIB_FALSE) return MK_PLUGIN_RET_CLOSE_CONX;
+    }
+
+#endif
+
     /* Connection just accept(ed) not assigned to worker thread */
     if (hook & MK_PLUGIN_STAGE_10) {
         stm = plg_stagemap->stage_10;
@@ -617,6 +633,23 @@ int mk_plugin_stage_run(unsigned int hook,
             stm = stm->next;
         }
     }
+
+#ifdef SHAREDLIB
+
+    if (hook & MK_PLUGIN_STAGE_30 && ctx->dataf) {
+        int status = 200;
+        char *content;
+        char header[34];
+        ret = ctx->dataf(sr, "vhostname", "url", &status, &content, header);
+
+        if (ret == MKLIB_TRUE) return MK_PLUGIN_RET_END;
+    }
+
+    if (hook & MK_PLUGIN_STAGE_50 && ctx->closef) {
+        ctx->closef(sr);
+    }
+
+#endif
 
     return -1;
 }

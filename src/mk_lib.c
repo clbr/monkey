@@ -391,7 +391,7 @@ int mklib_start(mklib_ctx ctx)
 
     int i;
     for (i = 0; i < config->workers; i++) {
-        mk_sched_launch_thread(config->worker_capacity, &ctx->workers[i]);
+        mk_sched_launch_thread(config->worker_capacity, &ctx->workers[i], ctx);
     }
 
     ctx->lib_running = 1;
