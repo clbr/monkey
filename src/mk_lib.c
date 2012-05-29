@@ -186,7 +186,7 @@ int mklib_config(mklib_ctx ctx, ...)
 
     i = va_arg(va, int);
     while (i) {
-        enum mklib_mkc e = i;
+        const enum mklib_mkc e = i;
 
         switch(e) {
             case MKC_WORKERS:
