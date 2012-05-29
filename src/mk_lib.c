@@ -322,7 +322,6 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
 
     char *s;
     int i;
-    unsigned long len;
     va_list va;
 
     va_start(va, name);
@@ -346,8 +345,8 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
                     }
 
                     struct host_alias *alias = mk_mem_malloc_z(sizeof(struct host_alias));
-                    mk_string_build(&alias->name, &len, entry->val);
-                    alias->len = len;
+                    alias->name = mk_string_tolower(entry->val);
+                    alias->len = entry->len;
                     mk_list_add(&alias->_head, &h->server_names);
                 }
 
