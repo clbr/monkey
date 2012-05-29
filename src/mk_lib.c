@@ -304,6 +304,75 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
 {
     if (!ctx) return MKLIB_FALSE;
 
+    /* Does it exist already? */
+    struct host *h = mk_lib_host_find(name);
+    if (h) return MKLIB_FALSE;
+
+    const struct host *defaulth = mk_lib_host_find("default");
+
+
+    h = mk_mem_malloc_z(sizeof(struct host));
+    h->file = strdup(name);
+
+    h->documentroot.data = strdup("/dev/null");
+    h->documentroot.len = sizeof("/dev/null") - 1;
+
+    mk_list_init(&h->error_pages);
+    mk_list_init(&h->server_names);
+
+    char *s;
+    int i;
+    unsigned long len;
+    va_list va;
+
+    va_start(va, name);
+
+    i = va_arg(va, int);
+    while (i) {
+        const enum mklib_mkv e = i;
+
+        switch(e) {
+            case MKV_SERVERNAME:
+                s = va_arg(va, char *);
+
+                struct mk_list *head, *list = mk_string_split_line(s);
+
+                mk_list_foreach(head, list) {
+                    struct mk_string_line *entry = mk_list_entry(head,
+                                                                 struct mk_string_line,
+                                                                 _head);
+                    if (entry->len > MK_HOSTNAME_LEN - 1) {
+                        continue;
+                    }
+
+                    struct host_alias *alias = mk_mem_malloc_z(sizeof(struct host_alias));
+                    mk_string_build(&alias->name, &len, entry->val);
+                    alias->len = len;
+                    mk_list_add(&alias->_head, &h->server_names);
+                }
+
+                mk_string_split_free(list);
+            break;
+            case MKV_DOCUMENTROOT:
+                s = va_arg(va, char *);
+                free(h->documentroot.data);
+                h->documentroot.data = strdup(s);
+                h->documentroot.len = strlen(s);
+            break;
+            default:
+                mk_warn("Unknown config option");
+            break;
+        }
+    }
+
+    h->host_signature = strdup(defaulth->host_signature);
+    h->header_host_signature.data = strdup(defaulth->header_host_signature.data);
+    h->header_host_signature.len = defaulth->header_host_signature.len;
+
+    mk_list_add(&h->_head, &config->hosts);
+    config->nhosts++;
+
+    va_end(va);
     return MKLIB_TRUE;
 }
 
