@@ -527,9 +527,12 @@ int mk_plugin_stage_run(unsigned int hook,
 #ifdef SHAREDLIB
     struct sched_list_node *thconf = mk_sched_get_thread_conf();
     mklib_ctx ctx = thconf->ctx;
+    char buf[256], *ptr = buf;
+    unsigned long len;
 
     if (hook & MK_PLUGIN_STAGE_10 && ctx->ipf) {
-        ret = ctx->ipf("1234556");
+        mk_socket_ip_str(socket, &ptr, 256, &len);
+        ret = ctx->ipf(buf);
         if (ret == MKLIB_FALSE) return MK_PLUGIN_RET_CLOSE_CONX;
     }
 
