@@ -220,6 +220,10 @@ int mklib_config(mklib_ctx ctx, ...)
                 }
                 config->server_software.len = len;
             break;
+            case MKC_RESUME:
+                i = va_arg(va, int);
+                config->resume = i ? MK_TRUE : MK_FALSE;
+            break;
         }
 
         i = va_arg(va, int);
