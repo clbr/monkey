@@ -661,17 +661,17 @@ int mk_plugin_stage_run(unsigned int hook,
         api->header_set_http_status(sr, status);
 
         /* Headers */
-        sr->headers.content_length = 0;
+        sr->headers.content_length = clen;
         len = strlen(header);
         if (len) api->header_add(sr, header, len);
         api->header_send(socket, cs, sr);
 
         /* Data */
         while (clen > 0) {
-            ret = api->socket_send(socket, content, clen);
-            if (ret < 0) return -1;
+            int remaining = api->socket_send(socket, content, clen);
+            if (remaining < 0) return -1;
 
-            clen -= ret;
+            clen -= remaining;
         }
 
         if (ret == MKLIB_TRUE) return MK_PLUGIN_RET_END;
