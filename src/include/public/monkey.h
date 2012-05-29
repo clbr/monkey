@@ -88,7 +88,7 @@ typedef int (*urlcheck_f)(const char *url);
  * Set *content to point to the content memory. It must
  * stay available until the close callback is called.
  *
- * *header has static storage of 34 bytes for any custom headers. */
+ * *header has static storage of 256 bytes for any custom headers. */
 typedef int (*data_f)(const mklib_session *, const char *vhost, const char *url,
                     unsigned int *status, const char **content, unsigned long *clen,
                     char *header);
