@@ -207,21 +207,23 @@ int mklib_config(mklib_ctx ctx, ...)
                 s = va_arg(va, char *);
                 config->index_files = mk_string_split_line(s);
             break;
+            case MKC_HIDEVERSION:
+                i = va_arg(va, int);
+
+                /* Basic server information */
+                if (!i) {
+                    mk_string_build(&config->server_software.data,
+                                    &len, "libmonkey/%s (%s)", VERSION, OS);
+                }
+                else {
+                    mk_string_build(&config->server_software.data, &len, "libmonkey");
+                }
+                config->server_software.len = len;
+            break;
         }
 
         i = va_arg(va, int);
     }
-
-    /* Basic server information */
-/*    if (config->hideversion == MK_FALSE) {
-        mk_string_build(&config->server_software.data,
-                        &len, "Monkey/%s (%s)", VERSION, OS);
-        config->server_software.len = len;
-    }
-    else {
-        mk_string_build(&config->server_software.data, &len, "Monkey Server");
-        config->server_software.len = len;
-    }*/
 
     va_end(va);
     return MKLIB_TRUE;
