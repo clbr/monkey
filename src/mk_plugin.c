@@ -659,7 +659,8 @@ int mk_plugin_stage_run(unsigned int hook,
         strncpy(buf, sr->uri.data, len);
         buf[len] = '\0';
 
-        ret = ctx->dataf(sr, sr->host_conf->file, buf, &status, &content, &clen, header);
+        ret = ctx->dataf(sr, sr->host_conf->file, buf, sr->query_string.data, sr->data.data,
+                         &status, &content, &clen, header);
         if (ret == MKLIB_FALSE) return -1;
 
         /* Status */
