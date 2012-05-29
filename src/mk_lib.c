@@ -201,10 +201,12 @@ int mklib_config(mklib_ctx ctx, ...)
             break;
             case MKC_USERDIR:
                 s = va_arg(va, char *);
+                if (config->user_dir) free(config->user_dir);
                 config->user_dir = strdup(s);
             break;
             case MKC_INDEXFILE:
                 s = va_arg(va, char *);
+                if (config->index_files) mk_string_split_free(config->index_files);
                 config->index_files = mk_string_split_line(s);
             break;
             case MKC_HIDEVERSION:
