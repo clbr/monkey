@@ -362,6 +362,8 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
                 mk_warn("Unknown config option");
             break;
         }
+
+        i = va_arg(va, int);
     }
 
     h->host_signature = strdup(defaulth->host_signature);
