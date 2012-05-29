@@ -34,6 +34,10 @@
 #include "mk_plugin.h"
 #include "mk_macros.h"
 
+enum {
+    bufsize = 256
+};
+
 static int mk_plugin_event_set_list(struct mk_list *list)
 {
     return pthread_setspecific(mk_plugin_event_k, (void *) list);
@@ -527,18 +531,18 @@ int mk_plugin_stage_run(unsigned int hook,
 #ifdef SHAREDLIB
     struct sched_list_node *thconf = mk_sched_get_thread_conf();
     mklib_ctx ctx = thconf->ctx;
-    char buf[256], *ptr = buf;
+    char buf[bufsize], *ptr = buf;
     unsigned long len;
 
     if (hook & MK_PLUGIN_STAGE_10 && ctx->ipf) {
-        mk_socket_ip_str(socket, &ptr, 256, &len);
+        mk_socket_ip_str(socket, &ptr, bufsize, &len);
         ret = ctx->ipf(buf);
         if (ret == MKLIB_FALSE) return MK_PLUGIN_RET_CLOSE_CONX;
     }
 
     if (hook & MK_PLUGIN_STAGE_20 && ctx->urlf) {
         len = sr->uri.len;
-        if (len >= 256) len = 255;
+        if (len >= bufsize) len = bufsize - 1;
         strncpy(buf, sr->uri.data, len);
         buf[len] = '\0';
 
@@ -648,10 +652,10 @@ int mk_plugin_stage_run(unsigned int hook,
         unsigned int status = 200;
         unsigned long clen;
         const char *content;
-        char header[34] = "";
+        char header[bufsize] = "";
 
         len = sr->uri.len;
-        if (len >= 256) len = 255;
+        if (len >= bufsize) len = bufsize - 1;
         strncpy(buf, sr->uri.data, len);
         buf[len] = '\0';
 
