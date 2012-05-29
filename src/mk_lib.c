@@ -117,6 +117,11 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     config = mk_mem_malloc_z(sizeof(struct server_config));
     if (!config) return MKLIB_FALSE;
 
+    a->ipf = ipf;
+    a->urlf = urlf;
+    a->dataf = dataf;
+    a->closef = closef;
+
     config->serverconf = strdup(MONKEY_PATH_CONF);
     mk_config_set_init_values();
     mk_sched_init();
