@@ -36,8 +36,6 @@
 #include <mk_server.h>
 #include <stdarg.h>
 
-static int lib_running = 0;
-
 static struct host *mk_lib_host_find(const char *name)
 {
     struct host *entry_host;
@@ -56,13 +54,14 @@ static struct host *mk_lib_host_find(const char *name)
 static void mklib_run(void *p)
 {
     int remote_fd, ret;
+    mklib_ctx ctx = p;
 
     mk_utils_worker_rename("libmonkey");
     mk_socket_set_tcp_defer_accept(config->server_fd);
 
     while (1) {
 
-        if (!lib_running) {
+        if (!ctx->lib_running) {
             sleep(1);
             continue;
         }
@@ -311,7 +310,7 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
 /* Start the server. */
 int mklib_start(mklib_ctx ctx)
 {
-    if (!ctx || lib_running) return MKLIB_FALSE;
+    if (!ctx || ctx->lib_running) return MKLIB_FALSE;
 
     ctx->workers = mk_mem_malloc_z(sizeof(pthread_t) * config->workers);
 
@@ -320,8 +319,8 @@ int mklib_start(mklib_ctx ctx)
         mk_sched_launch_thread(config->worker_capacity, &ctx->workers[i]);
     }
 
-    lib_running = 1;
-    ctx->tid = mk_utils_worker_spawn(mklib_run);
+    ctx->lib_running = 1;
+    ctx->tid = mk_utils_worker_spawn_arg(mklib_run, ctx);
 
     return MKLIB_TRUE;
 }
@@ -329,9 +328,9 @@ int mklib_start(mklib_ctx ctx)
 /* Stop the server and free mklib_ctx. */
 int mklib_stop(mklib_ctx ctx)
 {
-    if (!ctx || !lib_running) return MKLIB_FALSE;
+    if (!ctx || !ctx->lib_running) return MKLIB_FALSE;
 
-    lib_running = 0;
+    ctx->lib_running = 0;
     pthread_cancel(ctx->tid);
 
     int i;

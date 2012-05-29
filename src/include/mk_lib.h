@@ -28,6 +28,7 @@ struct mklib_ctx_t {
     pthread_t tid;
     pthread_t clock;
     pthread_t *workers;
+    int lib_running;
 };
 
 #endif
