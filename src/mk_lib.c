@@ -186,12 +186,22 @@ int mklib_config(mklib_ctx ctx, ...)
 
     i = va_arg(va, int);
     while (i) {
-        switch(i) {
+        enum mklib_mkc e = i;
+
+        switch(e) {
             case MKC_WORKERS:
                 i = va_arg(va, int);
                 config->workers = i;
                 config->worker_capacity = mk_server_worker_capacity(config->workers);
                 config->max_load = (config->worker_capacity * config->workers);
+            break;
+            case MKC_TIMEOUT:
+                i = va_arg(va, int);
+                config->timeout = i;
+            break;
+            case MKC_USERDIR:
+                s = va_arg(va, char *);
+                config->user_dir = strdup(s);
             break;
         }
 
