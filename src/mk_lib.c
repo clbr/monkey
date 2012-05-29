@@ -228,6 +228,10 @@ int mklib_config(mklib_ctx ctx, ...)
                 i = va_arg(va, int);
                 config->keep_alive = i ? MK_TRUE : MK_FALSE;
             break;
+            case MKC_KEEPALIVETIMEOUT:
+                i = va_arg(va, int);
+                config->keep_alive_timeout = i;
+            break;
         }
 
         i = va_arg(va, int);
