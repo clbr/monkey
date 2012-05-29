@@ -173,7 +173,6 @@ static void *mk_sched_launch_worker_loop(void *thread_conf)
 
     /* Register working thread */
     wid = mk_sched_register_thread(thconf->epoll_fd);
-    mk_mem_free(thread_conf);
 
     /* Plugin thread context calls */
     mk_plugin_event_init_list();
@@ -191,6 +190,8 @@ static void *mk_sched_launch_worker_loop(void *thread_conf)
 #ifdef SHAREDLIB
     thinfo->ctx = thconf->ctx;
 #endif
+
+    mk_mem_free(thread_conf);
 
     /* Rename worker */
     mk_string_build(&thread_name, &len, "monkey: wrk/%i", thinfo->idx);
