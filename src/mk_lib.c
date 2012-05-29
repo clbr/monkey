@@ -209,6 +209,7 @@ int mklib_config(mklib_ctx ctx, ...)
             break;
             case MKC_HIDEVERSION:
                 i = va_arg(va, int);
+                config->server_software.data = NULL;
 
                 /* Basic server information */
                 if (!i) {
@@ -219,6 +220,18 @@ int mklib_config(mklib_ctx ctx, ...)
                     mk_string_build(&config->server_software.data, &len, "libmonkey");
                 }
                 config->server_software.len = len;
+
+                /* Mark it so for the default vhost */
+                struct mk_list *hosts = &config->hosts;
+                struct host *def = mk_list_entry_first(hosts, struct host, _head);
+                free(def->host_signature);
+                free(def->header_host_signature.data);
+                def->header_host_signature.data = NULL;
+
+                def->host_signature = strdup(config->server_software.data);
+                mk_string_build(&def->header_host_signature.data,
+                                &def->header_host_signature.len,
+                                "Server: %s", def->host_signature);
             break;
             case MKC_RESUME:
                 i = va_arg(va, int);
