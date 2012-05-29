@@ -34,6 +34,7 @@
 #include <mk_clock.h>
 #include <mk_mimetype.h>
 #include <mk_server.h>
+#include <stdarg.h>
 
 static int lib_running = 0;
 
@@ -177,8 +178,28 @@ int mklib_config(mklib_ctx ctx, ...)
     if (!ctx) return MKLIB_FALSE;
 
     unsigned long len;
+    int i;
+    char *s;
+    va_list va;
+
+    va_start(va, ctx);
+
+    i = va_arg(va, int);
+    while (i) {
+        switch(i) {
+            case MKC_WORKERS:
+                i = va_arg(va, int);
+                config->workers = i;
+                config->worker_capacity = mk_server_worker_capacity(config->workers);
+                config->max_load = (config->worker_capacity * config->workers);
+            break;
+        }
+
+        i = va_arg(va, int);
+    }
+
     /* Basic server information */
-    if (config->hideversion == MK_FALSE) {
+/*    if (config->hideversion == MK_FALSE) {
         mk_string_build(&config->server_software.data,
                         &len, "Monkey/%s (%s)", VERSION, OS);
         config->server_software.len = len;
@@ -186,9 +207,9 @@ int mklib_config(mklib_ctx ctx, ...)
     else {
         mk_string_build(&config->server_software.data, &len, "Monkey Server");
         config->server_software.len = len;
-    }
+    }*/
 
-
+    va_end(va);
     return MKLIB_TRUE;
 }
 
