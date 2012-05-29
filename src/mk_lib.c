@@ -236,6 +236,10 @@ int mklib_config(mklib_ctx ctx, ...)
                 i = va_arg(va, int);
                 config->max_keep_alive_request = i;
             break;
+            case MKC_MAXREQUESTSIZE:
+                i = va_arg(va, int);
+                config->max_request_size = i;
+            break;
         }
 
         i = va_arg(va, int);
