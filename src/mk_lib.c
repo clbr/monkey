@@ -224,6 +224,10 @@ int mklib_config(mklib_ctx ctx, ...)
                 i = va_arg(va, int);
                 config->resume = i ? MK_TRUE : MK_FALSE;
             break;
+            case MKC_KEEPALIVE:
+                i = va_arg(va, int);
+                config->keep_alive = i ? MK_TRUE : MK_FALSE;
+            break;
         }
 
         i = va_arg(va, int);
