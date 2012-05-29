@@ -323,6 +323,8 @@ int mklib_stop(mklib_ctx ctx)
         pthread_cancel(ctx->workers[i]);
     }
 
+    mk_plugin_exit_all();
+
     free(ctx);
     free(config);
 
