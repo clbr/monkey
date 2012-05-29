@@ -125,6 +125,8 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
 
     unsigned long len;
     struct host *host = mk_mem_malloc_z(sizeof(struct host));
+    /* We hijack this field for the vhost name */
+    host->file = "default";
     mk_list_init(&host->error_pages);
     mk_list_init(&host->server_names);
     mk_string_build(&host->host_signature, &len, "libmonkey");
