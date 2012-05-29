@@ -325,6 +325,10 @@ int mklib_stop(mklib_ctx ctx)
 
     mk_plugin_exit_all();
 
+#ifdef SAFE_FREE
+    mk_config_free_all();
+#endif
+
     free(ctx);
     free(config);
 
