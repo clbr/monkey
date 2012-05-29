@@ -647,7 +647,7 @@ int mk_plugin_stage_run(unsigned int hook,
     if (hook & MK_PLUGIN_STAGE_30 && ctx->dataf) {
         unsigned int status = 200;
         char *content;
-        char header[34];
+        char header[34] = "";
 
         len = sr->uri.len;
         if (len >= 256) len = 255;
@@ -655,6 +655,13 @@ int mk_plugin_stage_run(unsigned int hook,
         buf[len] = '\0';
 
         ret = ctx->dataf(sr, sr->host_conf->file, buf, &status, &content, header);
+
+        api->header_set_http_status(sr, status);
+
+        sr->headers.content_length = 0;
+        len = strlen(header);
+        if (len) api->header_add(sr, header, len);
+        api->header_send(socket, cs, sr);
 
         if (ret == MKLIB_TRUE) return MK_PLUGIN_RET_END;
     }
