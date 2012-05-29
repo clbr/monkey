@@ -38,6 +38,21 @@
 
 static int lib_running = 0;
 
+static struct host *mk_lib_host_find(const char *name)
+{
+    struct host *entry_host;
+    struct mk_list *head_vhost;
+
+    mk_list_foreach(head_vhost, &config->hosts) {
+        entry_host = mk_list_entry(head_vhost, struct host, _head);
+
+        if (strcmp(name, entry_host->file) == 0) return entry_host;
+    }
+
+    return NULL;
+}
+
+
 static void mklib_run(void *p)
 {
     int remote_fd, ret;
