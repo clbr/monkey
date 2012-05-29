@@ -147,7 +147,7 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
         host->documentroot.len = strlen(documentroot);
     }
     else {
-        host->documentroot.data = "/dev/null";
+        host->documentroot.data = strdup("/dev/null");
         host->documentroot.len = sizeof("/dev/null") - 1;
     }
 
