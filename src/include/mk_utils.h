@@ -82,6 +82,7 @@ int mk_utils_remove_pid(void);
 void mk_print(int type, const char *format, ...);
 
 pthread_t mk_utils_worker_spawn(void (*func) (void *));
+pthread_t mk_utils_worker_spawn_arg(void (*func) (void *), void *arg);
 int mk_utils_worker_rename(const char *title);
 
 #ifdef DEBUG
