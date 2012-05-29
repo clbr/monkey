@@ -55,7 +55,6 @@ enum {
 enum mklib_mkc {
     MKC_WORKERS = 1,
     MKC_TIMEOUT,
-    MKC_PIDFILE,
     MKC_USERDIR,
     MKC_INDEXFILE,
     MKC_HIDEVERSION,
