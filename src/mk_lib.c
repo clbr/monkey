@@ -103,7 +103,7 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     config = mk_mem_malloc_z(sizeof(struct server_config));
     if (!config) return MKLIB_FALSE;
 
-    config->serverconf = MONKEY_PATH_CONF;
+    config->serverconf = strdup(MONKEY_PATH_CONF);
     mk_config_set_init_values();
     mk_sched_init();
     mk_plugin_init();
@@ -122,11 +122,12 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
 
     if (port) config->serverport = port;
     if (address) config->listen_addr = strdup(address);
+    else config->listen_addr = strdup(config->listen_addr);
 
     unsigned long len;
     struct host *host = mk_mem_malloc_z(sizeof(struct host));
     /* We hijack this field for the vhost name */
-    host->file = "default";
+    host->file = strdup("default");
     mk_list_init(&host->error_pages);
     mk_list_init(&host->server_names);
     mk_string_build(&host->host_signature, &len, "libmonkey");
@@ -327,10 +328,11 @@ int mklib_stop(mklib_ctx ctx)
 
 #ifdef SAFE_FREE
     mk_config_free_all();
+#else
+    free(config);
 #endif
 
     free(ctx);
-    free(config);
 
     return MKLIB_TRUE;
 }
