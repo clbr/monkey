@@ -537,8 +537,10 @@ int mk_plugin_stage_run(unsigned int hook,
     }
 
     if (hook & MK_PLUGIN_STAGE_20 && ctx->urlf) {
-        strncpy(buf, sr->uri.data, sr->uri.len);
-        buf[sr->uri.len] = '\0';
+        len = sr->uri.len;
+        if (len >= 256) len = 255;
+        strncpy(buf, sr->uri.data, len);
+        buf[len] = '\0';
         ret = ctx->urlf(buf);
         if (ret == MKLIB_FALSE) return MK_PLUGIN_RET_CLOSE_CONX;
     }
