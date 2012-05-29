@@ -95,7 +95,7 @@ typedef int (*data_f)(const mklib_session *, const char *vhost, const char *url,
 /* This will be called after the content has been served. If you allocated
  * any memory, you can match that memory to the mklib_session pointer and free
  * it in this callback. */
-typedef void (*close_f)(const mklib_session *, const char *);
+typedef void (*close_f)(const mklib_session *);
 
 
 /* ---------------------------------
