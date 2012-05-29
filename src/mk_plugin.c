@@ -654,7 +654,7 @@ int mk_plugin_stage_run(unsigned int hook,
         strncpy(buf, sr->uri.data, len);
         buf[len] = '\0';
 
-        ret = ctx->dataf(sr, "vhostname", buf, &status, &content, header);
+        ret = ctx->dataf(sr, sr->host_conf->file, buf, &status, &content, header);
 
         if (ret == MKLIB_TRUE) return MK_PLUGIN_RET_END;
     }
