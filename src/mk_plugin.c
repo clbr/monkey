@@ -656,6 +656,7 @@ int mk_plugin_stage_run(unsigned int hook,
         buf[len] = '\0';
 
         ret = ctx->dataf(sr, sr->host_conf->file, buf, &status, &content, &clen, header);
+        if (ret == MKLIB_FALSE) return -1;
 
         /* Status */
         api->header_set_http_status(sr, status);
