@@ -250,6 +250,9 @@ int mklib_config(mklib_ctx ctx, ...)
                 mk_string_build(&config->default_mimetype, &len, "%s\r\n", s);
                 mk_pointer_set(&mimetype_default->type, config->default_mimetype);
             break;
+            default:
+                mk_warn("Unknown config option");
+            break;
         }
 
         i = va_arg(va, int);
