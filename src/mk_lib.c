@@ -240,6 +240,10 @@ int mklib_config(mklib_ctx ctx, ...)
                 i = va_arg(va, int);
                 config->max_request_size = i;
             break;
+            case MKC_SYMLINK:
+                i = va_arg(va, int);
+                config->symlink = i ? MK_TRUE : MK_FALSE;
+            break;
         }
 
         i = va_arg(va, int);
