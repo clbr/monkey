@@ -53,7 +53,7 @@ enum {
 
 /* Config options for the main config call */
 enum {
-    MKC_WORKERS,
+    MKC_WORKERS = 1,
     MKC_TIMEOUT,
     MKC_PIDFILE,
     MKC_USERDIR,
@@ -70,7 +70,7 @@ enum {
 
 /* Config options for the vhost config call */
 enum {
-    MKV_SERVERNAME,
+    MKV_SERVERNAME = 1,
     MKV_DOCUMENTROOT
 };
 
