@@ -33,6 +33,7 @@ enum {
 static char buf[bufsize];
 
 static int list(const mklib_session *sr, const char *vhost, const char *url,
+		const char *get, const char *post,
 		unsigned int *status, const char **content, unsigned long *content_len,
 		char *header) {
 
