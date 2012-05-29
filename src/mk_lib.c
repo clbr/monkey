@@ -194,6 +194,9 @@ int mklib_config(mklib_ctx ctx, ...)
                 config->workers = i;
                 config->worker_capacity = mk_server_worker_capacity(config->workers);
                 config->max_load = (config->worker_capacity * config->workers);
+
+                free(sched_list);
+                mk_sched_init();
             break;
             case MKC_TIMEOUT:
                 i = va_arg(va, int);
