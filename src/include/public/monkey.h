@@ -52,7 +52,7 @@ enum {
 };
 
 /* Config options for the main config call */
-enum {
+enum mklib_mkc {
     MKC_WORKERS = 1,
     MKC_TIMEOUT,
     MKC_PIDFILE,
@@ -69,7 +69,7 @@ enum {
 };
 
 /* Config options for the vhost config call */
-enum {
+enum mklib_mkv {
     MKV_SERVERNAME = 1,
     MKV_DOCUMENTROOT
 };
