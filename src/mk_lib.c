@@ -232,6 +232,10 @@ int mklib_config(mklib_ctx ctx, ...)
                 i = va_arg(va, int);
                 config->keep_alive_timeout = i;
             break;
+            case MKC_MAXKEEPALIVEREQUEST:
+                i = va_arg(va, int);
+                config->max_keep_alive_request = i;
+            break;
         }
 
         i = va_arg(va, int);
