@@ -260,6 +260,7 @@ int mklib_config(mklib_ctx ctx, ...)
             case MKC_DEFAULTMIMETYPE:
                 s = va_arg(va, char *);
                 free(config->default_mimetype);
+                config->default_mimetype = NULL;
                 mk_string_build(&config->default_mimetype, &len, "%s\r\n", s);
                 mk_pointer_set(&mimetype_default->type, config->default_mimetype);
             break;
