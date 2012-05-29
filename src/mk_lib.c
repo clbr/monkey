@@ -244,6 +244,12 @@ int mklib_config(mklib_ctx ctx, ...)
                 i = va_arg(va, int);
                 config->symlink = i ? MK_TRUE : MK_FALSE;
             break;
+            case MKC_DEFAULTMIMETYPE:
+                s = va_arg(va, char *);
+                free(config->default_mimetype);
+                mk_string_build(&config->default_mimetype, &len, "%s\r\n", s);
+                mk_pointer_set(&mimetype_default->type, config->default_mimetype);
+            break;
         }
 
         i = va_arg(va, int);
