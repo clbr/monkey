@@ -652,15 +652,28 @@ int mk_plugin_stage_run(unsigned int hook,
         unsigned int status = 200;
         unsigned long clen;
         const char *content;
+        char *get = NULL, *post = NULL;
         char header[bufsize] = "";
+
+        if (sr->query_string.data) {
+            get = mk_mem_malloc_z(sr->query_string.len + 1);
+            memcpy(get, sr->query_string.data, sr->query_string.len);
+        }
+        if (sr->data.data) {
+            post = mk_mem_malloc_z(sr->data.len + 1);
+            memcpy(post, sr->data.data, sr->data.len);
+        }
 
         len = sr->uri.len;
         if (len >= bufsize) len = bufsize - 1;
         strncpy(buf, sr->uri.data, len);
         buf[len] = '\0';
 
-        ret = ctx->dataf(sr, sr->host_conf->file, buf, sr->query_string.data, sr->data.data,
+        ret = ctx->dataf(sr, sr->host_conf->file, buf, get, post,
                          &status, &content, &clen, header);
+	mk_mem_free(get);
+	mk_mem_free(post);
+
         if (ret == MKLIB_FALSE) return -1;
 
         /* Status */
