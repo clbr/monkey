@@ -640,7 +640,7 @@ int mk_plugin_stage_run(unsigned int hook,
 #ifdef SHAREDLIB
 
     if (hook & MK_PLUGIN_STAGE_30 && ctx->dataf) {
-        int status = 200;
+        unsigned int status = 200;
         char *content;
         char header[34];
         ret = ctx->dataf(sr, "vhostname", "url", &status, &content, header);
