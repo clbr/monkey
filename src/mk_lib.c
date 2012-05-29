@@ -203,6 +203,10 @@ int mklib_config(mklib_ctx ctx, ...)
                 s = va_arg(va, char *);
                 config->user_dir = strdup(s);
             break;
+            case MKC_INDEXFILE:
+                s = va_arg(va, char *);
+                config->index_files = mk_string_split_line(s);
+            break;
         }
 
         i = va_arg(va, int);
