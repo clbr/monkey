@@ -650,7 +650,7 @@ int mk_plugin_stage_run(unsigned int hook,
         if (ret == MKLIB_TRUE) return MK_PLUGIN_RET_END;
     }
 
-    if (hook & MK_PLUGIN_STAGE_50 && ctx->closef) {
+    if (hook & MK_PLUGIN_STAGE_40 && ctx->closef) {
         ctx->closef(sr);
     }
 
