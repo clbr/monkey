@@ -17,7 +17,7 @@ SYNOPSIS
 *int (*data_f)(const mklib_session *'sr', const char *'vhost', const char *'url',
               const char *'get', const char *'post',
               unsigned int *'status', const char `**`'content',
-              unsigned long *'clen', char *'header');*
+              unsigned long *'content_len', char *'header');*
 
 *void (*close_f)(const mklib_session *'sr');*
 
@@ -28,7 +28,66 @@ SYNOPSIS
 
 DESCRIPTION
 -----------
-Yay
+The *mklib_init*() function creates a libmonkey context with the given settings.
+
+You may use NULL for the char */function pointer and 0 for the int arguments to
+use the defaults for each.
+
+The 'address' argument gives the IP to which to bind. The default is to bind to all.
+
+The 'port' argument gives the port to bind to. The default is 2001. Note that ports
+<= 1024 require root permissions.
+
+The 'plugins' argument is an OR'ed result of valid, library-compliant plugins.
+Currently the allowed options are 'MKLIB_LIANA' and 'MKLIB_LIANA_SSL'. The default is
+'MKLIB_LIANA'.
+
+The 'documentroot' argument gives the path from where to serve pages. The default is
+none, that is, no files will be served no matter the request. This often makes sense
+if you plan to serve all requests dynamically yourself via the data callback.
+
+CALLBACKS
+---------
+
+The *ipcheck_f*() callback is called right after a new connection is established.
+It is given the IP in text form, and is expected to return MKLIB_FALSE if the connection
+is to be dropped.
+
+The *urlcheck_f*() callback is called when the requested URL is known. You may use this
+callback to check whether the URL is valid. Return MKLIB_FALSE to drop this connection.
+
+The *data_f*() callback is the main entry point for dynamic applications.
+Return MKLIB_FALSE if you don't want to handle this connection, and MKLIB_TRUE if you
+sent any data.
+
+Input arguments::
+	The 'sr' argument is an unique identifier for this request. You may use it to match
+	any dynamically allocated memory later in the *close_f*() callback.
+
+	The 'vhost' argument is an unique string identifying this virtual host. It is
+	"default" for the default/fallback virtual host.
+
+	The 'url' argument contains the request url, same as passed to the *urlcheck_f*()
+	callback.
+
+	The 'get' and 'post' arguments contain data sent via HTTP GET and POST, if any. They
+	are NULL if no data was sent via that channel.
+
+Output arguments::
+	The 'status' argument will be sent as the HTTP status code. If not set, it defaults
+	to 200 "OK".
+
+	The 'content' argument will contain the main response you want to send for this
+	request. It must stay available until the *close_f*() callback is called.
+
+	The 'content_len' argument will contain the length of 'content', in bytes.
+
+	The 'header' argument has 256 bytes of static space for any custom headers.
+	For example, one could write the content type there: "Content-type: text/html"
+
+
+The *close_f*() callback is called after all data for this request is served. You may use
+the callback for freeing any per-request dynamic memory, for example.
 
 RETURN VALUE
 ------------
