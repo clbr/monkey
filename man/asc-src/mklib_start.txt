@@ -1,0 +1,31 @@
+mklib_start(3)
+=============
+
+NAME
+----
+mklib_start, mklib_stop - start/stop a monkey server instance
+
+SYNOPSIS
+--------
+*#include <monkey.h>*
+
+*int mklib_start(mklib_ctx);*
+
+*int mklib_stop(mklib_ctx);*
+
+DESCRIPTION
+-----------
+Yay
+
+RETURN VALUE
+------------
+On success, returns a valid mklib_ctx. On failure NULL is returned.
+
+SEE ALSO
+--------
+*mklib_config*(3), *mklib_vhost_config*(3), *mklib_init*(3)
+
+RESOURCES
+---------
+See http://monkey-project.com
+

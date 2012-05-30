@@ -1,0 +1,29 @@
+mklib_vhost_config(3)
+=============
+
+NAME
+----
+mklib_vhost_config - configure a new virtual host
+
+SYNOPSIS
+--------
+*#include <monkey.h>*
+
+*int mklib_vhost_config(mklib_ctx, char *name, ...);*
+
+DESCRIPTION
+-----------
+Yay
+
+RETURN VALUE
+------------
+On success, returns a valid mklib_ctx. On failure NULL is returned.
+
+SEE ALSO
+--------
+*mklib_config*(3), *mklib_init*(3), *mklib_start*(3), *mklib_stop*(3)
+
+RESOURCES
+---------
+See http://monkey-project.com
+
