@@ -36,7 +36,7 @@ use the defaults for each.
 The 'address' argument gives the IP to which to bind. The default is to bind to all.
 
 The 'port' argument gives the port to bind to. The default is 2001. Note that ports
-<= 1024 require root permissions.
+`<=` 1024 require root permissions.
 
 The 'plugins' argument is an OR'ed result of valid, library-compliant plugins.
 Currently the allowed options are 'MKLIB_LIANA' and 'MKLIB_LIANA_SSL'. The default is
