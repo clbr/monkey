@@ -7,19 +7,24 @@ mklib_init - sets up a libmonkey context
 
 SYNOPSIS
 --------
-#include <monkey.h>
+*#include <monkey.h>*
 
-int (*ipcheck_f)(const char *ip);
-int (*urlcheck_f)(const char *url);
-int (*data_f)(const mklib_session *, const char *vhost, const char *url,
-              const char *get, const char *post,
-              unsigned int *status, const char **content, 
-              unsigned long *clen, char *header);
-void (*close_f)(const mklib_session *);
+*int (*ipcheck_f)(const char *'ip');*
 
-mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
-                               unsigned int plugins, const char *documentroot,
-                               ipcheck_f, urlcheck_f, data_f, close_f);
+*int (*urlcheck_f)(const char *'url');*
+
+[verse]
+*int (*data_f)(const mklib_session *'sr', const char *'vhost', const char *'url',
+              const char *'get', const char *'post',
+              unsigned int *'status', const char `**`'content',
+              unsigned long *'clen', char *'header');*
+
+*void (*close_f)(const mklib_session *'sr');*
+
+[verse]
+*mklib_ctx mklib_init(const char *'address', unsigned int 'port',
+                     unsigned int 'plugins', const char *'documentroot',
+                     ipcheck_f, urlcheck_f, data_f, close_f);*
 
 DESCRIPTION
 -----------
@@ -31,7 +36,7 @@ On success, returns a valid mklib_ctx. On failure NULL is returned.
 
 SEE ALSO
 --------
-mklib_config(3), mklib_vhost_config(3), mklib_start(3), mklib_stop(3)
+*mklib_config*(3), *mklib_vhost_config*(3), *mklib_start*(3), *mklib_stop*(3)
 
 RESOURCES
 ---------
