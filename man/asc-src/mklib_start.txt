@@ -16,14 +16,14 @@ SYNOPSIS
 DESCRIPTION
 -----------
 The *mklib_start*() function starts the server instance identified by
-the context 'ctx'. It runs in a thread.
+the context 'ctx'. It runs in a thread in the current process.
 
 The *mklib_stop*() function stops the server instance 'ctx' and frees
 all memory associated with it. 'ctx' is invalid after the call.
 
 RETURN VALUE
 ------------
-On success, returns MKLIB_TRUE. On failure MKLIB_FALSE is returned.
+On success, these functions return MKLIB_TRUE. On failure MKLIB_FALSE is returned.
 
 SEE ALSO
 --------
