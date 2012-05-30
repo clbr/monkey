@@ -197,7 +197,7 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
  * Returns MKLIB_FALSE on failure. */
 int mklib_config(mklib_ctx ctx, ...)
 {
-    if (!ctx) return MKLIB_FALSE;
+    if (!ctx || ctx->lib_running) return MKLIB_FALSE;
 
     unsigned long len;
     int i;
