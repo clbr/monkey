@@ -1,0 +1,39 @@
+mklib_init(3)
+=============
+
+NAME
+----
+mklib_init - sets up a libmonkey context
+
+SYNOPSIS
+--------
+#include <monkey.h>
+
+int (*ipcheck_f)(const char *ip);
+int (*urlcheck_f)(const char *url);
+int (*data_f)(const mklib_session *, const char *vhost, const char *url,
+              const char *get, const char *post,
+              unsigned int *status, const char **content, 
+              unsigned long *clen, char *header);
+void (*close_f)(const mklib_session *);
+
+mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
+                               unsigned int plugins, const char *documentroot,
+                               ipcheck_f, urlcheck_f, data_f, close_f);
+
+DESCRIPTION
+-----------
+Yay
+
+RETURN VALUE
+------------
+On success, returns a valid mklib_ctx. On failure NULL is returned.
+
+SEE ALSO
+--------
+mklib_config(3), mklib_vhost_config(3), mklib_start(3), mklib_stop(3)
+
+RESOURCES
+---------
+See http://monkey-project.com
+
