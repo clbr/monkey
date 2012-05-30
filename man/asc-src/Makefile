@@ -5,11 +5,11 @@ DST = $(SRC:.txt=.o)
 
 all: $(DST)
 	ln -s mklib_start.3 ../mklib_stop.3
+	cp *.[0-9] ..
 
 %.o : %.txt
 	a2x -f manpage $<
 	touch $@
-	cp *.[0-9] ..
 
 clean:
 	rm -f *.o *.[0-9]
