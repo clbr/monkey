@@ -4,6 +4,7 @@ SRC = $(wildcard *.txt)
 DST = $(SRC:.txt=.o)
 
 all: $(DST)
+	ln -s mklib_start.3 ../mklib_stop.3
 
 %.o : %.txt
 	a2x -f manpage $<
