@@ -686,12 +686,14 @@ int mk_plugin_stage_run(unsigned int hook,
         api->header_send(socket, cs, sr);
 
         /* Data */
+        mk_socket_set_cork_flag(socket, TCP_CORK_ON);
         while (clen > 0) {
             int remaining = api->socket_send(socket, content, clen);
             if (remaining < 0) return -1;
 
             clen -= remaining;
         }
+        mk_socket_set_cork_flag(socket, TCP_CORK_OFF);
 
         if (ret == MKLIB_TRUE) return MK_PLUGIN_RET_END;
     }
