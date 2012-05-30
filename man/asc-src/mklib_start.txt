@@ -9,17 +9,21 @@ SYNOPSIS
 --------
 *#include <monkey.h>*
 
-*int mklib_start(mklib_ctx);*
+*int mklib_start(mklib_ctx 'ctx');*
 
-*int mklib_stop(mklib_ctx);*
+*int mklib_stop(mklib_ctx 'ctx');*
 
 DESCRIPTION
 -----------
-Yay
+The *mklib_start*() function starts the server instance identified by
+the context 'ctx'. It runs in a thread.
+
+The *mklib_stop*() function stops the server instance 'ctx' and frees
+all memory associated with it. 'ctx' is invalid after the call.
 
 RETURN VALUE
 ------------
-On success, returns a valid mklib_ctx. On failure NULL is returned.
+On success, returns MKLIB_TRUE. On failure MKLIB_FALSE is returned.
 
 SEE ALSO
 --------
