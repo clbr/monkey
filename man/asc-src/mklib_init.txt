@@ -60,28 +60,22 @@ The *data_f*() callback is the main entry point for dynamic applications.
 Return MKLIB_FALSE if you don't want to handle this connection, and MKLIB_TRUE if you
 sent any data.
 
-Input arguments::
+*Input arguments*::
 	The 'sr' argument is an unique identifier for this request. You may use it to match
-	any dynamically allocated memory later in the *close_f*() callback.
-
+	any dynamically allocated memory later in the *close_f*() callback. +
 	The 'vhost' argument is an unique string identifying this virtual host. It is
-	"default" for the default/fallback virtual host.
-
+	"default" for the default/fallback virtual host. +
 	The 'url' argument contains the request url, same as passed to the *urlcheck_f*()
-	callback.
-
+	callback. +
 	The 'get' and 'post' arguments contain data sent via HTTP GET and POST, if any. They
 	are NULL if no data was sent via that channel.
 
-Output arguments::
+*Output arguments*::
 	The 'status' argument will be sent as the HTTP status code. If not set, it defaults
-	to 200 "OK".
-
+	to 200 "OK". +
 	The 'content' argument will contain the main response you want to send for this
-	request. It must stay available until the *close_f*() callback is called.
-
-	The 'content_len' argument will contain the length of 'content', in bytes.
-
+	request. It must stay available until the *close_f*() callback is called. +
+	The 'content_len' argument will contain the length of 'content', in bytes. +
 	The 'header' argument has 256 bytes of static space for any custom headers.
 	For example, one could write the content type there: "Content-type: text/html"
 
