@@ -314,6 +314,7 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
     if (h) return MKLIB_FALSE;
 
     const struct host *defaulth = mk_lib_host_find("default");
+    if (!defaulth) return MKLIB_FALSE;
 
 
     h = mk_mem_malloc_z(sizeof(struct host));
