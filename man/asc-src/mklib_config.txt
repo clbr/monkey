@@ -74,9 +74,9 @@ VALID OPTIONS
 EXAMPLE
 -------
 [verse]
-// Set workers to 3
+`//` Set workers to 3
 mklib_config(ctx, MKC_WORKERS, 3, NULL);
-// Set timeout and keep-alive timeout to 5s
+`//` Set timeout and keep-alive timeout to 5s
 mklib_config(ctx, MKC_TIMEOUT, 5, MKC_KEEPALIVETIMEOUT, 5, NULL);
 
 RETURN VALUE
