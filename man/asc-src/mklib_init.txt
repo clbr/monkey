@@ -61,9 +61,9 @@ Return MKLIB_FALSE if you don't want to handle this connection, and MKLIB_TRUE i
 sent any data.
 
 *Input arguments*::
-	The 'sr' argument is an unique identifier for this request. You may use it to match
+	The 'sr' argument is a unique identifier for this request. You may use it to match
 	any dynamically allocated memory later in the *close_f*() callback. +
-	The 'vhost' argument is an unique string identifying this virtual host. It is
+	The 'vhost' argument is a unique string identifying this virtual host. It is
 	"default" for the default/fallback virtual host. +
 	The 'url' argument contains the request url, same as passed to the *urlcheck_f*()
 	callback. +
