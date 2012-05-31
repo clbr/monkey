@@ -45,7 +45,7 @@ percentage=$(printf '%.2f' $percentage)
 num=${percentage//.*/}
 
 [ $fail -eq 0 ] && echo "$GREEN	All tests passed!"
-[ "$num" -le 90 -a "$num" -ge 60 ] && echo "$YELLOW	$percentage% passed, $fail fails"
-[ $num -lt 60 ] && echo "$RED	$percentage% passed, $fail fails"
+[ "$num" -le 90 -a "$num" -ge 60 ] && echo "$YELLOW	$percentage% passed, $fail/$total fails"
+[ $num -lt 60 ] && echo "$RED	$percentage% passed, $fail/$total fails"
 
 echo $NORMAL
