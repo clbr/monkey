@@ -23,6 +23,7 @@ for src in *.c; do
 	$CC $CFLAGS $LDFLAGS -o $test $src
 	if [ $? -ne 0 ]; then
 		fail=$((fail + 1))
+		echo "${RED}Failed to build $NORMAL"
 		continue
 	fi
 
