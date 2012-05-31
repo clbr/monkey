@@ -11,6 +11,9 @@ CFLAGS="$CFLAGS -Wl,-rpath,\$ORIGIN/../../src -I ../../src/include/public"
 LDFLAGS="$LDFLAGS ../../src/libmonkey.so*"
 [ -z "$CC" ] && CC=gcc
 
+# Precompile the header for faster builds
+$CC ../../src/include/public/monkey.h
+
 success=0
 fail=0
 
