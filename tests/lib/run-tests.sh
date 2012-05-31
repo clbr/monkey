@@ -21,6 +21,7 @@ for src in *.c; do
 	[ ! -f "$src" ] && exit
 
 	test=${src%.c}
+	log=${test}.log
 
 	echo -n "Building test $test... "
 	$CC $CFLAGS $LDFLAGS -o $test $src
@@ -30,14 +31,18 @@ for src in *.c; do
 		continue
 	fi
 
-	./$test
+	./$test > $log
 	if [ $? -ne 0 ]; then
 		fail=$((fail + 1))
 		echo "${RED}Failed $NORMAL"
 	else
 		success=$((success + 1))
 		echo
+		rm -f $log
 	fi
+
+	# If empty, remove
+	[ ! -s "$log" ] && rm -f $log
 done
 
 # Remove the PCH
