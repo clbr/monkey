@@ -2,6 +2,7 @@
 #include "md5_check.h"
 
 // Serve on two ports at once.
+// This is known to fail, would require deep surgery to handle properly.
 
 const char data1c[] = "data1";
 const char data2c[] = "data2";
