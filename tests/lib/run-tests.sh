@@ -15,6 +15,8 @@ success=0
 fail=0
 
 for src in *.c; do
+	[ ! -f "$src" ] && exit
+
 	test=${src%.c}
 
 	echo -n "Building test $test... "
