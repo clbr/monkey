@@ -40,6 +40,10 @@ for src in *.c; do
 	fi
 done
 
+# Remove the PCH
+rm ../../src/include/public/monkey.h.gch
+
+
 echo
 
 total=$((fail + success))
