@@ -1,4 +1,6 @@
 #!/bin/bash
+# Tests starting with x are expected to fail
+
 
 export LANG=C
 
@@ -23,6 +25,9 @@ for src in *.c; do
 	test=${src%.c}
 	log=${test}.log
 
+	ret=0
+	case $test in x*) ret=1 ;; esac
+
 	echo -n "Building test $test... "
 	$CC $CFLAGS $LDFLAGS -o $test $src
 	if [ $? -ne 0 ]; then
@@ -32,7 +37,7 @@ for src in *.c; do
 	fi
 
 	./$test > $log
-	if [ $? -ne 0 ]; then
+	if [ $? -ne $ret ]; then
 		fail=$((fail + 1))
 		echo "${RED}Failed $NORMAL"
 	else
