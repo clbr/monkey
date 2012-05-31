@@ -183,6 +183,7 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     config->server_fd = mk_socket_server(config->serverport, config->listen_addr);
 
     /* Clock thread */
+    mk_clock_sequential_init();
     a->clock = mk_utils_worker_spawn((void *) mk_clock_worker_init);
 
     mk_mem_pointers_init();
