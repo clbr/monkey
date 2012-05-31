@@ -9,7 +9,7 @@
 int md5_check(const char *right, const char *where) {
 
 	char *def, buf[33];
-	asprintf(&def, "wget -q -O- %s | md5sum -", where);
+	asprintf(&def, "wget -t2 -q -O- %s | md5sum -", where);
 
 	FILE *f = popen(def, "r");
 	if (!f) return 0;
