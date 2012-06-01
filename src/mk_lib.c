@@ -92,6 +92,7 @@ static int load_networking(char *path)
     ret = p->init(&api, "");
     if (ret < 0) {
         mk_plugin_free(p);
+        dlclose(handle);
         return MKLIB_FALSE;
     }
 
@@ -112,10 +113,10 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
                      ipcheck_f ipf, urlcheck_f urlf, data_f dataf, close_f closef)
 {
     mklib_ctx a = mk_mem_malloc_z(sizeof(struct mklib_ctx_t));
-    if (!a) return MKLIB_FALSE;
+    if (!a) return NULL;
 
     config = mk_mem_malloc_z(sizeof(struct server_config));
-    if (!config) return MKLIB_FALSE;
+    if (!config) return NULL;
 
     a->ipf = ipf;
     a->urlf = urlf;
