@@ -116,7 +116,7 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     if (!a) return NULL;
 
     config = mk_mem_malloc_z(sizeof(struct server_config));
-    if (!config) return NULL;
+    if (!config) goto out;
 
     a->ipf = ipf;
     a->urlf = urlf;
@@ -130,14 +130,14 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
 
     if (plugins & MKLIB_LIANA_SSL) {
         config->transport_layer = strdup("liana_ssl");
-        if (!load_networking(PLUGDIR"/monkey-liana_ssl.so")) return NULL;
+        if (!load_networking(PLUGDIR"/monkey-liana_ssl.so")) goto out_config;
     }
     else {
         config->transport_layer = strdup("liana");
-        if (!load_networking(PLUGDIR"/monkey-liana.so")) return NULL;
+        if (!load_networking(PLUGDIR"/monkey-liana.so")) goto out_config;
     }
 
-    if (!plg_netiomap) return NULL;
+    if (!plg_netiomap) goto out_config;
     mk_plugin_preworker_calls();
 
     if (port) config->serverport = port;
@@ -193,6 +193,14 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     mk_plugin_core_process();
 
     return a;
+
+    out_config:
+    free(config);
+
+    out:
+    free(a);
+
+    return NULL;
 }
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
