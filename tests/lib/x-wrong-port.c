@@ -4,7 +4,7 @@
 
 int main() {
 
-	mklib_ctx c = mklib_init(NULL, -1, 0, NULL, NULL, NULL, NULL, NULL);
+	mklib_ctx c = mklib_init(NULL, -1, 0, NULL);
 	if (!c) return 1;
 
 	return 0;

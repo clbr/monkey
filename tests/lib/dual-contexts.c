@@ -33,10 +33,13 @@ int data2(const mklib_session *sr, const char *vhost, const char *url,
 
 int main() {
 
-	mklib_ctx c1 = mklib_init(NULL, 8094, 0, NULL, NULL, NULL, data1, NULL);
+	mklib_ctx c1 = mklib_init(NULL, 8094, 0, NULL);
 	if (!c1) return 1;
-	mklib_ctx c2 = mklib_init(NULL, 8095, 0, NULL, NULL, NULL, data2, NULL);
+	mklib_ctx c2 = mklib_init(NULL, 8095, 0, NULL);
 	if (!c2) return 1;
+
+	mklib_callback_set(c1, MKCB_DATA, data1);
+	mklib_callback_set(c2, MKCB_DATA, data2);
 
 	if (!mklib_start(c1)) return 1;
 	if (!mklib_start(c2)) return 1;

@@ -20,8 +20,11 @@ int urlcheck(const char *ip) {
 
 int main() {
 
-	mklib_ctx c = mklib_init(NULL, 8090, 0, NULL, NULL, urlcheck, data, NULL);
+	mklib_ctx c = mklib_init(NULL, 8090, 0, NULL);
 	if (!c) return 1;
+
+	mklib_callback_set(c, MKCB_URLCHECK, urlcheck);
+	mklib_callback_set(c, MKCB_DATA, data);
 
 	if (!mklib_start(c)) return 1;
 
