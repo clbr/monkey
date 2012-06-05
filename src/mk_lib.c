@@ -564,6 +564,8 @@ struct mklib_worker_info **mklib_scheduler_worker_info(mklib_ctx ctx)
 struct mklib_mime **mklib_mimetype_list(mklib_ctx ctx)
 {
     if (!ctx) return NULL;
+
+    static struct mklib_mime **lst = NULL;
 }
 
 /* Add a new mimetype */
@@ -571,6 +573,12 @@ int mklib_mimetype_add(mklib_ctx ctx, char *name, char *type)
 {
     if (!ctx || !name || !type) return MKLIB_FALSE;
 
+    /* Is it added already? */
+    if (mk_mimetype_lookup(name)) return MKLIB_FALSE;
+
+    mk_mimetype_add(name, type, 0);
+
+    return MKLIB_TRUE;
 }
 
 #endif
