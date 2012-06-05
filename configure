@@ -334,6 +334,8 @@ if [ -n "$sharedlib" ]; then
     -e "s@VERSION@$VERSION@" monkey.pc.in > monkey.pc
 fi
 
+[ -n "$sharedlib" ] && libvar="SHAREDLIB=1"
+
 cat > Makefile <<EOF
 # Monkey HTTP Daemon: Makefile
 # ============================
@@ -347,9 +349,15 @@ SYSCONFDIR=\$(DESTDIR)${sysconfdir}
 DATADIR=\$(DESTDIR)${datadir}
 LOGDIR=\$(DESTDIR)${logdir}
 PLUGINDIR=\$(DESTDIR)${plugdir}
+$libvar
 
 all:
 	@\$(MAKE) -s -C src all
+ifeq (\$(SHAREDLIB),1)
+	@echo Binary built, building the shared library.
+	@\$(MAKE) -s -C src binclean
+	@DEFS="-DSHAREDLIB -fPIC" \$(MAKE) -s -C src $SONAME
+endif
 	@\$(MAKE) -s -C plugins all
 	@echo "  DONE"
 
@@ -415,18 +423,12 @@ elif [ $platform == "android" ]; then
     libs=""
 fi
 
-if [ -n "$sharedlib" ]; then
-    maintarget="all: $SONAME"
-else
-    maintarget="all: ../bin/monkey"
-fi
-
 cat > src/Makefile<<EOF
 _PATH   = \$(patsubst \$(monkey_root)/%, %, \$(CURDIR))
 CC	= @echo "  CC   \$(_PATH)/\$@"; $CC
 CC_QUIET= @echo -n; $CC
 CFLAGS	= $CFLAGS
-DEFS    = $DEFS
+DEFS    += $DEFS
 INCDIR  = ./include
 LDFLAGS	= $LDFLAGS
 DESTDIR	= ../bin/monkey
@@ -438,7 +440,9 @@ OBJ	= monkey.o mk_method.o mk_mimetype.o mk_request.o \\
 	mk_file.o mk_socket.o mk_clock.o mk_cache.o \\
 	mk_server.o mk_plugin.o mk_lib.o
 
-$maintarget
+.PHONY: clean distclean binclean
+
+all: ../bin/monkey
 
 -include \$(OBJ:.o=.d)
 
@@ -451,6 +455,9 @@ $SONAME: \$(OBJ)
 clean:
 	rm -rf *.[od] $SONAME
 	rm -rf ../bin/monkey
+
+binclean:
+	rm -rf *.o $SONAME
 
 distclean:
 	rm -rf *.o ../bin/* Makefile \\
@@ -970,10 +977,6 @@ fi
 if [ $platform != "generic" ] && [ $platform != "android" ]; then
     echo -e "\nError: invalid platform $platform\n"
     exit 1
-fi
-
-if [ -n "$sharedlib" ]; then
-    DEFS="$DEFS -DSHAREDLIB -fPIC"
 fi
 
 # Starting main function
