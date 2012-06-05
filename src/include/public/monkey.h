@@ -58,6 +58,11 @@ struct mklib_worker_info {
     int pid;
 };
 
+struct mklib_mime {
+    const char *name;
+    const char *type;
+};
+
 /* Supported plugins, OR'ed in the init call */
 enum {
     MKLIB_LIANA = 0x1,
@@ -158,6 +163,12 @@ struct mklib_vhost MK_EXPORT **mklib_vhost_list(mklib_ctx);
 
 /* Return a list of the workers */
 struct mklib_worker_info MK_EXPORT **mklib_scheduler_worker_info(mklib_ctx);
+
+/* Return a list of all mimetypes */
+struct mklib_mime MK_EXPORT **mklib_mimetype_list(mklib_ctx);
+
+/* Add a new mimetype */
+int MK_EXPORT mklib_mimetype_add(mklib_ctx, char *, char *);
 
 #define mklib_vhost_foreach(cur, list) for(cur = *list++; cur; cur = *list++)
 #define mklib_worker_info_foreach(cur, list) mklib_vhost_foreach(cur, list)

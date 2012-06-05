@@ -560,4 +560,17 @@ struct mklib_worker_info **mklib_scheduler_worker_info(mklib_ctx ctx)
     return ctx->worker_info;
 }
 
+/* Return a list of all mimetypes */
+struct mklib_mime **mklib_mimetype_list(mklib_ctx ctx)
+{
+    if (!ctx) return NULL;
+}
+
+/* Add a new mimetype */
+int mklib_mimetype_add(mklib_ctx ctx, char *name, char *type)
+{
+    if (!ctx || !name || !type) return MKLIB_FALSE;
+
+}
+
 #endif
