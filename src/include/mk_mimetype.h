@@ -34,6 +34,11 @@ struct mimetype
     mk_pointer type;
 };
 
+/* amount of the top used mime types */
+enum {
+    MIME_COMMON=10
+};
+
 struct mimetype *mimetype_default;
 
 int mk_mimetype_add(char *name, char *type, int common);
