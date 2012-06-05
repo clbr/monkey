@@ -36,6 +36,8 @@
 #include <mk_server.h>
 #include <stdarg.h>
 
+extern int mime_nitem;
+
 static struct host *mk_lib_host_find(const char *name)
 {
     struct host *entry_host;
@@ -571,7 +573,7 @@ struct mklib_mime **mklib_mimetype_list(mklib_ctx ctx)
 /* Add a new mimetype */
 int mklib_mimetype_add(mklib_ctx ctx, char *name, char *type)
 {
-    if (!ctx || !name || !type) return MKLIB_FALSE;
+    if (!ctx || !name || !type) return MKLIB_FALSE;
 
     /* Is it added already? */
     if (mk_mimetype_lookup(name)) return MKLIB_FALSE;
