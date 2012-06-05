@@ -405,6 +405,21 @@ int mklib_start(mklib_ctx ctx)
         mk_sched_launch_thread(config->worker_capacity, &ctx->workers[i], ctx);
     }
 
+    /* Wait until all workers report as ready */
+    while (1) {
+        int i, ready = 0;
+
+        pthread_mutex_lock(&mutex_worker_init);
+        for (i = 0; i < config->workers; i++) {
+            if (sched_list[i].initialized)
+                ready++;
+        }
+        pthread_mutex_unlock(&mutex_worker_init);
+
+        if (ready == config->workers) break;
+        usleep(10000);
+    }
+
     ctx->lib_running = 1;
     ctx->tid = mk_utils_worker_spawn_arg(mklib_run, ctx);
 
