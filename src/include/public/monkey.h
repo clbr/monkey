@@ -124,7 +124,7 @@ mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
                                unsigned int plugins, const char *documentroot);
 
 /* Set the callbacks. */
-void MK_EXPORT mklib_callback_set(mklib_ctx, enum mklib_cb, void *);
+int MK_EXPORT mklib_callback_set(mklib_ctx, enum mklib_cb, void *);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */

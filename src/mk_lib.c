@@ -100,10 +100,10 @@ static int load_networking(char *path)
     return MKLIB_TRUE;
 }
 
-void mklib_callback_set(mklib_ctx ctx, enum mklib_cb cb, void *func)
+int mklib_callback_set(mklib_ctx ctx, enum mklib_cb cb, void *func)
 {
     /* Function is allowed to be NULL, to reset it) */
-    if (!ctx || !cb) return;
+    if (!ctx || !cb || ctx->lib_running) return MKLIB_FALSE;
 
     switch(cb) {
         case MKCB_IPCHECK:
@@ -118,7 +118,12 @@ void mklib_callback_set(mklib_ctx ctx, enum mklib_cb cb, void *func)
         case MKCB_CLOSE:
             ctx->closef = func;
         break;
+        default:
+            return MKLIB_FALSE;
+        break;
     }
+
+    return MKLIB_TRUE;
 }
 
 /* Returns NULL on error. All pointer arguments may be NULL and the port/plugins
