@@ -440,9 +440,10 @@ int mklib_start(mklib_ctx ctx)
         usleep(10000);
     }
 
-    ctx->worker_info = mk_mem_malloc_z(sizeof(struct mklib_worker_info) * (config->workers + 1));
+    ctx->worker_info = mk_mem_malloc_z(sizeof(struct mklib_worker_info *) * (config->workers + 1));
     for(i = 0; i < config->workers; i++) {
-        ctx->worker_info[i].pid = sched_list[i].pid;
+        ctx->worker_info[i] = mk_mem_malloc_z(sizeof(struct mklib_worker_info));
+        ctx->worker_info[i]->pid = sched_list[i].pid;
     }
 
     ctx->lib_running = 1;
@@ -462,7 +463,9 @@ int mklib_stop(mklib_ctx ctx)
     int i;
     for (i = 0; i < config->workers; i++) {
         pthread_cancel(ctx->workers[i]);
+        free(ctx->worker_info[i]);
     }
+    free(ctx->worker_info);
 
     mk_plugin_exit_all();
 
@@ -548,11 +551,11 @@ struct mklib_worker_info **mklib_scheduler_worker_info(mklib_ctx ctx)
 
 
     for (i = 0; i < config->workers; i++) {
-        ctx->worker_info[i].active_connections = sched_list[i].accepted_connections -
-                                                 sched_list[i].closed_connections;
+        ctx->worker_info[i]->active_connections = sched_list[i].accepted_connections -
+                                                  sched_list[i].closed_connections;
     }
 
-    return &ctx->worker_info;
+    return ctx->worker_info;
 }
 
 #endif

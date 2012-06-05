@@ -160,5 +160,6 @@ struct mklib_vhost MK_EXPORT **mklib_vhost_list(mklib_ctx);
 struct mklib_worker_info MK_EXPORT **mklib_scheduler_worker_info(mklib_ctx);
 
 #define mklib_vhost_foreach(cur, list) for(cur = *list++; cur; cur = *list++)
+#define mklib_worker_info_foreach(cur, list) mklib_vhost_foreach(cur, list)
 
 #endif
