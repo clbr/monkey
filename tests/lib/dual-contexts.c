@@ -8,7 +8,8 @@ const char data1c[] = "data1";
 const char data2c[] = "data2";
 
 int data1(const mklib_session *sr, const char *vhost, const char *url,
-		const char *get, const char *post,
+		const char *get, unsigned long get_len,
+		const char *post, unsigned long post_len,
 		unsigned int *status, const char **content,
 		unsigned long *content_len, char *header) {
 
@@ -20,7 +21,8 @@ int data1(const mklib_session *sr, const char *vhost, const char *url,
 }
 
 int data2(const mklib_session *sr, const char *vhost, const char *url,
-		const char *get, const char *post,
+		const char *get, unsigned long get_len,
+		const char *post, unsigned long post_len,
 		unsigned int *status, const char **content,
 		unsigned long *content_len, char *header) {
 

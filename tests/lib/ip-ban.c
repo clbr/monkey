@@ -5,7 +5,8 @@
 
 
 int data(const mklib_session *sr, const char *vhost, const char *url,
-		const char *get, const char *post,
+		const char *get, unsigned long get_len,
+		const char *post, unsigned long post_len,
 		unsigned int *status, const char **content,
 		unsigned long *content_len, char *header) {
 
