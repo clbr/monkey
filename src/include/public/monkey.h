@@ -100,9 +100,9 @@ typedef int (*cb_urlcheck)(const char *url);
  *
  * *header has static storage of 256 bytes for any custom headers. */
 typedef int (*cb_data)(const mklib_session *, const char *vhost, const char *url,
-                      const char *get, const char *post,
-                      unsigned int *status, const char **content, unsigned long *clen,
-                      char *header);
+                       const char *get, unsigned long get_len, const char *post, unsigned long post_len,
+                       unsigned int *status, const char **content, unsigned long *clen,
+                       char *header);
 
 /* This will be called after the content has been served. If you allocated
  * any memory, you can match that memory to the mklib_session pointer and free

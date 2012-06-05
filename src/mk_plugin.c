@@ -649,7 +649,7 @@ int mk_plugin_stage_run(unsigned int hook,
 
     if (hook & MK_PLUGIN_STAGE_30 && ctx->dataf) {
         unsigned int status = 200;
-        unsigned long clen;
+        unsigned long clen, get_len = 0, post_len = 0;
         const char *content;
         char *get = NULL, *post = NULL;
         char header[bufsize] = "";
@@ -657,10 +657,12 @@ int mk_plugin_stage_run(unsigned int hook,
         if (sr->query_string.data) {
             get = mk_mem_malloc_z(sr->query_string.len + 1);
             memcpy(get, sr->query_string.data, sr->query_string.len);
+            get_len = sr->query_string.len;
         }
         if (sr->data.data) {
             post = mk_mem_malloc_z(sr->data.len + 1);
             memcpy(post, sr->data.data, sr->data.len);
+            post_len = sr->data.len;
         }
 
         len = sr->uri.len;
@@ -668,7 +670,8 @@ int mk_plugin_stage_run(unsigned int hook,
         strncpy(buf, sr->uri.data, len);
         buf[len] = '\0';
 
-        ret = ctx->dataf(sr, sr->host_conf->file, buf, get, post,
+        ret = ctx->dataf(sr, sr->host_conf->file, buf,
+                         get, get_len, post, post_len,
                          &status, &content, &clen, header);
 	mk_mem_free(get);
 	mk_mem_free(post);
