@@ -532,8 +532,10 @@ struct mklib_vhost **mklib_vhost_list(mklib_ctx ctx)
         }
 
 	char *servernames = mk_mem_malloc_z(total_len);
-        for (i = 0; i < namecount; i++)
+        for (i = 0; i < namecount; i++) {
             strcat(servernames, names[i]);
+            strcat(servernames, " ");
+        }
 
         lst[total]->server_names = servernames;
 
