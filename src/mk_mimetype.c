@@ -82,7 +82,7 @@ static inline struct mimetype *mk_mimetype_lookup(char *name)
     return bsearch(&tmp, mimearr, nitem, sizeof(struct mimetype), mime_cmp);
 }
 
-static int mk_mimetype_add(char *name, char *type, int common)
+int mk_mimetype_add(char *name, char *type, int common)
 {
     int len = strlen(type) + 3;
     struct mimetype new_mime;
