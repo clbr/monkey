@@ -608,6 +608,7 @@ int mklib_mimetype_add(mklib_ctx ctx, char *name, char *type)
     if (mk_mimetype_lookup(name)) return MKLIB_FALSE;
 
     mk_mimetype_add(name, type, 0);
+    mk_mimearr_sort();
 
     return MKLIB_TRUE;
 }
