@@ -389,7 +389,7 @@ $plglist
 $incinstall
 	-install -m 644 src/$SONAME \$(LIBDIR)
 	-install -m 644 monkey.pc \$(LIBDIR)/pkgconfig
-	-ln -s $SONAME \$(LIBDIR)/libmonkey.so
+	-ln -sf $SONAME \$(LIBDIR)/libmonkey.so
 	-$STRIP --strip-unneeded \$(LIBDIR)/$SONAME
 	-$STRIP --strip-unneeded \$(BINDIR)/monkey
 	-$STRIP --strip-unneeded \${PLUGINDIR}/*
