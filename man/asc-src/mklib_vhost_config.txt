@@ -40,7 +40,8 @@ On success, returns MKLIB_TRUE. On failure MKLIB_FALSE is returned.
 
 SEE ALSO
 --------
-*mklib_config*(3), *mklib_init*(3), *mklib_start*(3), *mklib_stop*(3)
+*mklib_config*(3), *mklib_init*(3), *mklib_start*(3), *mklib_stop*(3), 
+*mklib_callback_set*(3)
 
 RESOURCES
 ---------
