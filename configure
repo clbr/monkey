@@ -357,6 +357,7 @@ ifeq (\$(SHAREDLIB),1)
 	@echo Binary built, building the shared library.
 	@\$(MAKE) -s -C src binclean
 	@DEFS="-DSHAREDLIB -fPIC" \$(MAKE) -s -C src $SONAME
+	@touch bin/monkey
 endif
 	@\$(MAKE) -s -C plugins all
 	@echo "  DONE"
