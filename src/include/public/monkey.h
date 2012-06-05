@@ -151,6 +151,6 @@ int MK_EXPORT mklib_stop(mklib_ctx);
 /* Return a list of existing vhosts */
 struct mklib_vhost MK_EXPORT **mklib_vhost_list(mklib_ctx);
 
-#define mklib_vhost_foreach(cur, list) for(cur = *list; cur; cur++)
+#define mklib_vhost_foreach(cur, list) for(cur = *list++; cur; cur = *list++)
 
 #endif
