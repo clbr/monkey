@@ -73,6 +73,14 @@ enum mklib_mkv {
     MKV_DOCUMENTROOT
 };
 
+/* Callbacks */
+enum mklib_cb {
+    MKCB_IPCHECK = 1,
+    MKCB_URLCHECK,
+    MKCB_DATA,
+    MKCB_CLOSE
+};
+
 /* struct session_request need not be exposed */
 typedef void mklib_session;
 
@@ -113,8 +121,10 @@ typedef void (*cb_close)(const mklib_session *);
  * With no documentroot, the default vhost won't access files.
  */
 mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
-                               unsigned int plugins, const char *documentroot,
-                               cb_ipcheck, cb_urlcheck, cb_data, cb_close);
+                               unsigned int plugins, const char *documentroot);
+
+/* Set the callbacks. */
+void MK_EXPORT mklib_callback_set(mklib_ctx, enum mklib_cb, void *);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */

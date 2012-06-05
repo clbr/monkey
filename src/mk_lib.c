@@ -100,6 +100,27 @@ static int load_networking(char *path)
     return MKLIB_TRUE;
 }
 
+void mklib_callback_set(mklib_ctx ctx, enum mklib_cb cb, void *func)
+{
+    /* Function is allowed to be NULL, to reset it) */
+    if (!ctx || !cb) return;
+
+    switch(cb) {
+        case MKCB_IPCHECK:
+            ctx->ipf = func;
+        break;
+        case MKCB_URLCHECK:
+            ctx->urlf = func;
+        break;
+        case MKCB_DATA:
+            ctx->dataf = func;
+        break;
+        case MKCB_CLOSE:
+            ctx->closef = func;
+        break;
+    }
+}
+
 /* Returns NULL on error. All pointer arguments may be NULL and the port/plugins
  * may be 0 for the defaults in each case.
  *
@@ -109,19 +130,13 @@ static int load_networking(char *path)
  * With no documentroot, the default vhost won't access files.
  */
 mklib_ctx mklib_init(const char *address, unsigned int port,
-                     unsigned int plugins, const char *documentroot,
-                     cb_ipcheck ipf, cb_urlcheck urlf, cb_data dataf, cb_close closef)
+                     unsigned int plugins, const char *documentroot)
 {
     mklib_ctx a = mk_mem_malloc_z(sizeof(struct mklib_ctx_t));
     if (!a) return NULL;
 
     config = mk_mem_malloc_z(sizeof(struct server_config));
     if (!config) goto out;
-
-    a->ipf = ipf;
-    a->urlf = urlf;
-    a->dataf = dataf;
-    a->closef = closef;
 
     config->serverconf = strdup(MONKEY_PATH_CONF);
     mk_config_set_init_values();
