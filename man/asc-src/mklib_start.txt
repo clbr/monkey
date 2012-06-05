@@ -27,7 +27,8 @@ On success, these functions return MKLIB_TRUE. On failure MKLIB_FALSE is returne
 
 SEE ALSO
 --------
-*mklib_config*(3), *mklib_vhost_config*(3), *mklib_init*(3), *mklib_callback_set*(3)
+*mklib_config*(3), *mklib_vhost_config*(3), *mklib_init*(3), *mklib_callback_set*(3),
+*mklib_vhost_list*(3), *mklib_scheduler_worker_info*(3)
 
 RESOURCES
 ---------

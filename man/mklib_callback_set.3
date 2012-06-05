@@ -39,7 +39,8 @@ mklib_callback_set \- sets up a callback function
 .sp
 .nf
 \fBint (*cb_data)(const mklib_session *\fR\fB\fIsr\fR\fR\fB, const char *\fR\fB\fIvhost\fR\fR\fB, const char *\fR\fB\fIurl\fR\fR\fB,
-              const char *\fR\fB\fIget\fR\fR\fB, const char *\fR\fB\fIpost\fR\fR\fB,
+              const char *\fR\fB\fIget\fR\fR\fB, unsigned long \fR\fB\fIget_len\fR\fR\fB,
+              const char *\fR\fB\fIpost\fR\fR\fB, unsigned long \fR\fB\fIpost_len\fR\fR\fB,
               unsigned int *\fR\fB\fIstatus\fR\fR\fB, const char \fR\fB**\fR\fB\fIcontent\fR\fR\fB,
               unsigned long *\fR\fB\fIcontent_len\fR\fR\fB, char *\fR\fB\fIheader\fR\fR\fB);\fR
 .fi
@@ -147,7 +148,7 @@ The \fBcb_close\fR() callback is called after all data for this request is serve
 On success, returns \fIMKLIB_TRUE\fR\&. On failure \fIMKLIB_FALSE\fR is returned\&.
 .SH "SEE ALSO"
 .sp
-\fBmklib_config\fR(3), \fBmklib_vhost_config\fR(3), \fBmklib_start\fR(3), \fBmklib_stop\fR(3), \fBmklib_init\fR(3)
+\fBmklib_config\fR(3), \fBmklib_vhost_config\fR(3), \fBmklib_start\fR(3), \fBmklib_stop\fR(3), \fBmklib_init\fR(3), \fBmklib_vhost_list\fR(3), \fBmklib_scheduler_worker_info\fR(3)
 .SH "RESOURCES"
 .sp
 See http://monkey\-project\&.com
