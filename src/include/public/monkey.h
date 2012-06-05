@@ -47,6 +47,12 @@ enum {
     MKLIB_TRUE = 1
 };
 
+struct mklib_vhost {
+    const char *name;
+    const char *document_root;
+    const char *server_names;
+};
+
 /* Supported plugins, OR'ed in the init call */
 enum {
     MKLIB_LIANA = 0x1,
@@ -141,5 +147,10 @@ int MK_EXPORT mklib_start(mklib_ctx);
 
 /* Stop the server and free mklib_ctx. */
 int MK_EXPORT mklib_stop(mklib_ctx);
+
+/* Return a list of existing vhosts */
+struct mklib_vhost MK_EXPORT **mklib_vhost_list(mklib_ctx);
+
+#define mklib_vhost_foreach(cur, list) for(cur = *list; cur; cur++)
 
 #endif

@@ -472,4 +472,67 @@ int mklib_stop(mklib_ctx ctx)
     return MKLIB_TRUE;
 }
 
+struct mklib_vhost **mklib_vhost_list(mklib_ctx ctx)
+{
+    static struct mklib_vhost **lst = NULL;
+    struct host *entry_host;
+    struct host_alias *alias;
+    struct mk_list *head_vhost, *head_aliases;
+    unsigned int i, total = 0, namecount;
+    char *names[50];
+
+    if (!ctx) return NULL;
+
+    /* Free it if it exists */
+    if (lst) {
+        for (i = 0; lst[i]; i++) {
+            free((char *) lst[i]->server_names);
+            free(lst[i]);
+        }
+
+        free(lst);
+    }
+
+    /* How many are there? */
+    mk_list_foreach(head_vhost, &config->hosts) {
+        total++;
+
+        entry_host = mk_list_entry(head_vhost, struct host, _head);
+    }
+    total++;
+
+    lst = mk_mem_malloc_z(sizeof(struct mklib_vhost *) * total);
+
+    total = 0;
+
+    /* Set up the list to return */
+    mk_list_foreach(head_vhost, &config->hosts) {
+        entry_host = mk_list_entry(head_vhost, struct host, _head);
+
+        lst[total] = mk_mem_malloc_z(sizeof(struct mklib_vhost));
+
+        lst[total]->name = entry_host->file;
+        lst[total]->document_root = entry_host->documentroot.data;
+
+        namecount = 0;
+        unsigned int total_len = 1;
+        mk_list_foreach(head_aliases, &entry_host->server_names) {
+            alias = mk_list_entry(head_aliases, struct host_alias, _head);
+            names[namecount] = alias->name;
+            namecount++;
+            total_len += alias->len + 1;
+        }
+
+	char *servernames = mk_mem_malloc_z(total_len);
+        for (i = 0; i < namecount; i++)
+            strcat(servernames, names[i]);
+
+        lst[total]->server_names = servernames;
+
+        total++;
+    }
+
+    return lst;
+}
+
 #endif
