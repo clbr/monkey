@@ -59,7 +59,7 @@ static int mime_cmp(const void *m1, const void *m2)
 }
 
 /* Match mime type for requested resource */
-static inline struct mimetype *mk_mimetype_lookup(char *name)
+inline struct mimetype *mk_mimetype_lookup(char *name)
 {
     int i;
     struct mimetype tmp;

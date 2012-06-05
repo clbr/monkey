@@ -39,5 +39,6 @@ struct mimetype *mimetype_default;
 int mk_mimetype_add(char *name, char *type, int common);
 void mk_mimetype_read_config(void);
 struct mimetype *mk_mimetype_find(mk_pointer * filename);
+inline struct mimetype *mk_mimetype_lookup(char *name);
 
 #endif
