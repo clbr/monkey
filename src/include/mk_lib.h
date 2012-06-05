@@ -29,10 +29,10 @@ struct mklib_ctx_t {
     pthread_t clock;
     pthread_t *workers;
 
-    ipcheck_f ipf;
-    urlcheck_f urlf;
-    data_f dataf;
-    close_f closef;
+    cb_ipcheck ipf;
+    cb_urlcheck urlf;
+    cb_data dataf;
+    cb_close closef;
 
     int lib_running;
 };

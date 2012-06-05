@@ -77,10 +77,10 @@ enum mklib_mkv {
 typedef void mklib_session;
 
 /* Called when a new connection arrives. Return MKLIB_FALSE to reject this connection. */
-typedef int (*ipcheck_f)(const char *ip);
+typedef int (*cb_ipcheck)(const char *ip);
 
 /* Called when the URL is known. Return MKLIB_FALSE to reject this connection. */
-typedef int (*urlcheck_f)(const char *url);
+typedef int (*cb_urlcheck)(const char *url);
 
 /* The data callback. Return MKLIB_FALSE if you don't want to handle this URL
  * (it will be checked against real files at this vhost's DocumentRoot).
@@ -89,7 +89,7 @@ typedef int (*urlcheck_f)(const char *url);
  * stay available until the close callback is called.
  *
  * *header has static storage of 256 bytes for any custom headers. */
-typedef int (*data_f)(const mklib_session *, const char *vhost, const char *url,
+typedef int (*cb_data)(const mklib_session *, const char *vhost, const char *url,
                       const char *get, const char *post,
                       unsigned int *status, const char **content, unsigned long *clen,
                       char *header);
@@ -97,7 +97,7 @@ typedef int (*data_f)(const mklib_session *, const char *vhost, const char *url,
 /* This will be called after the content has been served. If you allocated
  * any memory, you can match that memory to the mklib_session pointer and free
  * it in this callback. */
-typedef void (*close_f)(const mklib_session *);
+typedef void (*cb_close)(const mklib_session *);
 
 
 /* ---------------------------------
@@ -114,7 +114,7 @@ typedef void (*close_f)(const mklib_session *);
  */
 mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
                                unsigned int plugins, const char *documentroot,
-                               ipcheck_f, urlcheck_f, data_f, close_f);
+                               cb_ipcheck, cb_urlcheck, cb_data, cb_close);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */

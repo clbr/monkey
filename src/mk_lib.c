@@ -110,7 +110,7 @@ static int load_networking(char *path)
  */
 mklib_ctx mklib_init(const char *address, unsigned int port,
                      unsigned int plugins, const char *documentroot,
-                     ipcheck_f ipf, urlcheck_f urlf, data_f dataf, close_f closef)
+                     cb_ipcheck ipf, cb_urlcheck urlf, cb_data dataf, cb_close closef)
 {
     mklib_ctx a = mk_mem_malloc_z(sizeof(struct mklib_ctx_t));
     if (!a) return NULL;
