@@ -137,9 +137,7 @@ void mk_mimetype_read_config()
         i++;
     }
 
-
-    /* sort ascendingly for later binary search */
-    qsort(mimearr, mime_nitem, sizeof(struct mimetype), mime_cmp);
+    mk_mimearr_sort();
 
     /* Set default mime type */
     mimetype_default = mk_mem_malloc_z(sizeof(struct mimetype));
@@ -147,6 +145,12 @@ void mk_mimetype_read_config()
     mk_pointer_set(&mimetype_default->type, config->default_mimetype);
 
     mk_config_free(cnf);
+}
+
+void mk_mimearr_sort()
+{
+    /* sort ascendingly for later binary search */
+    qsort(mimearr, mime_nitem, sizeof(struct mimetype), mime_cmp);
 }
 
 struct mimetype *mk_mimetype_find(mk_pointer * filename)
