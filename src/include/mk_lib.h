@@ -35,6 +35,8 @@ struct mklib_ctx_t {
     cb_data dataf;
     cb_close closef;
 
+    struct mklib_worker_info *worker_info;
+
     int lib_running;
 };
 

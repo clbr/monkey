@@ -53,6 +53,11 @@ struct mklib_vhost {
     const char *server_names;
 };
 
+struct mklib_worker_info {
+    unsigned long long active_connections;
+    int pid;
+};
+
 /* Supported plugins, OR'ed in the init call */
 enum {
     MKLIB_LIANA = 0x1,
@@ -150,6 +155,9 @@ int MK_EXPORT mklib_stop(mklib_ctx);
 
 /* Return a list of existing vhosts */
 struct mklib_vhost MK_EXPORT **mklib_vhost_list(mklib_ctx);
+
+/* Return a list of the workers */
+struct mklib_worker_info MK_EXPORT **mklib_scheduler_worker_info(mklib_ctx);
 
 #define mklib_vhost_foreach(cur, list) for(cur = *list++; cur; cur = *list++)
 

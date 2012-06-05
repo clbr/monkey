@@ -420,14 +420,14 @@ int mklib_start(mklib_ctx ctx)
 
     ctx->workers = mk_mem_malloc_z(sizeof(pthread_t) * config->workers);
 
-    int i;
+    unsigned int i;
     for (i = 0; i < config->workers; i++) {
         mk_sched_launch_thread(config->worker_capacity, &ctx->workers[i], ctx);
     }
 
     /* Wait until all workers report as ready */
     while (1) {
-        int i, ready = 0;
+        int ready = 0;
 
         pthread_mutex_lock(&mutex_worker_init);
         for (i = 0; i < config->workers; i++) {
@@ -438,6 +438,11 @@ int mklib_start(mklib_ctx ctx)
 
         if (ready == config->workers) break;
         usleep(10000);
+    }
+
+    ctx->worker_info = mk_mem_malloc_z(sizeof(struct mklib_worker_info) * (config->workers + 1));
+    for(i = 0; i < config->workers; i++) {
+        ctx->worker_info[i].pid = sched_list[i].pid;
     }
 
     ctx->lib_running = 1;
@@ -533,6 +538,21 @@ struct mklib_vhost **mklib_vhost_list(mklib_ctx ctx)
     }
 
     return lst;
+}
+
+struct mklib_worker_info **mklib_scheduler_worker_info(mklib_ctx ctx)
+{
+    unsigned int i;
+
+    if (!ctx || !ctx->lib_running) return NULL;
+
+
+    for (i = 0; i < config->workers; i++) {
+        ctx->worker_info[i].active_connections = sched_list[i].accepted_connections -
+                                                 sched_list[i].closed_connections;
+    }
+
+    return &ctx->worker_info;
 }
 
 #endif
