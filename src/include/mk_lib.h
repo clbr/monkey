@@ -20,6 +20,7 @@
 #ifndef MK_LIB_H
 #define MK_LIB_H
 
+#include "mk_macros.h"
 #include "public/monkey.h"
 
 /* Data */

@@ -26,7 +26,9 @@
 #ifdef SHAREDLIB
  #include <mk_macros.h>
 #else
+ #ifndef MK_EXPORT
  #define MK_EXPORT
+ #endif
 #endif
 
 #define MONKEY__
