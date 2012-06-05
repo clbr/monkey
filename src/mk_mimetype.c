@@ -41,13 +41,13 @@
 
 static struct mimetype *mimecommon = NULL; /* old top used mime types */
 static struct mimetype *mimearr = NULL; /* old the rest of the mime types */
-static int nitem = 0; /* amount of available mime types */
+int mime_nitem = 0; /* amount of available mime types */
 
 /* add an item to the mimecommon or mimearr variables */
 #define add_mime(item, m) ({                                            \
-    m = (nitem==0) ? mk_mem_malloc(sizeof(struct mimetype)) :           \
-        mk_mem_realloc(m, (nitem + 1) * (sizeof(struct mimetype)));     \
-    m[nitem++] = item;                                                  \
+    m = (mime_nitem==0) ? mk_mem_malloc(sizeof(struct mimetype)) :           \
+        mk_mem_realloc(m, (mime_nitem + 1) * (sizeof(struct mimetype)));     \
+    m[mime_nitem++] = item;                                                  \
 })
 
 static int mime_cmp(const void *m1, const void *m2)
@@ -79,7 +79,7 @@ static inline struct mimetype *mk_mimetype_lookup(char *name)
     }
 
     tmp.name = name;
-    return bsearch(&tmp, mimearr, nitem, sizeof(struct mimetype), mime_cmp);
+    return bsearch(&tmp, mimearr, mime_nitem, sizeof(struct mimetype), mime_cmp);
 }
 
 int mk_mimetype_add(char *name, char *type, int common)
@@ -131,7 +131,7 @@ void mk_mimetype_read_config()
         }
         else {
             if (i == MIME_COMMON) {
-                nitem = 0; /* reset counter */
+                mime_nitem = 0; /* reset counter */
             }
             if (mk_mimetype_add(entry->key, entry->val, 0) != 0) {
                 mk_err("Error loading Mime Types");
@@ -142,7 +142,7 @@ void mk_mimetype_read_config()
 
 
     /* sort ascendingly for later binary search */
-    qsort(mimearr, nitem, sizeof(struct mimetype), mime_cmp);
+    qsort(mimearr, mime_nitem, sizeof(struct mimetype), mime_cmp);
 
     /* Set default mime type */
     mimetype_default = mk_mem_malloc_z(sizeof(struct mimetype));
