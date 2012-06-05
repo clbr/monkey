@@ -13,6 +13,18 @@ CFLAGS="$CFLAGS -Wl,-rpath,\$ORIGIN/../../src -I ../../src/include/public"
 LDFLAGS="$LDFLAGS ../../src/libmonkey.so*"
 [ -z "$CC" ] && CC=gcc
 
+
+# Check that we can run the tests
+if [ ! -f ../../src/libmonkey.so* ]; then
+	echo -e "\n${YELLOW}Please build and install the library first.\n"
+
+	echo "The tests will link against the source dir, but the library"
+	echo "expects to find the plugins in the plugindir (installed plugins)"
+	echo $NORMAL
+	exit
+fi
+
+
 # Precompile the header for faster builds
 $CC ../../src/include/public/monkey.h
 
