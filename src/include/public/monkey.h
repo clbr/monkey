@@ -172,5 +172,6 @@ int MK_EXPORT mklib_mimetype_add(mklib_ctx, char *, char *);
 
 #define mklib_vhost_foreach(cur, list) for(cur = *list++; cur; cur = *list++)
 #define mklib_worker_info_foreach(cur, list) mklib_vhost_foreach(cur, list)
+#define mklib_mime_foreach(cur, list) mklib_vhost_foreach(cur, list)
 
 #endif

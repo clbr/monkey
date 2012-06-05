@@ -569,6 +569,34 @@ struct mklib_mime **mklib_mimetype_list(mklib_ctx ctx)
     if (!ctx) return NULL;
 
     static struct mklib_mime **lst = NULL;
+    unsigned int i;
+    const unsigned int total = mime_nitem + MIME_COMMON;
+
+    if (lst) {
+        for (i = 0; i < total; i++) {
+            free(lst[i]);
+        }
+
+        free(lst);
+    }
+
+    lst = mk_mem_malloc_z((total + 1) * sizeof(struct mklib_mime *));
+
+    for (i = 0; i < total; i++) {
+        lst[i] = mk_mem_malloc_z(sizeof(struct mklib_mime));
+
+        if (i < MIME_COMMON) {
+            lst[i]->name = mimecommon[i].name;
+            lst[i]->type = mimecommon[i].type.data;
+        }
+        else {
+            const unsigned int m = i - MIME_COMMON;
+            lst[i]->name = mimearr[m].name;
+            lst[i]->type = mimearr[m].type.data;
+        }
+    }
+
+    return lst;
 }
 
 /* Add a new mimetype */
