@@ -36,8 +36,8 @@
 #include "mk_list.h"
 #include "mk_macros.h"
 
-static struct mimetype *mimecommon = NULL; /* old top used mime types */
-static struct mimetype *mimearr = NULL; /* old the rest of the mime types */
+struct mimetype *mimecommon = NULL; /* old top used mime types */
+struct mimetype *mimearr = NULL; /* old the rest of the mime types */
 int mime_nitem = 0; /* amount of available mime types */
 
 /* add an item to the mimecommon or mimearr variables */

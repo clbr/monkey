@@ -37,6 +37,7 @@
 #include <stdarg.h>
 
 extern int mime_nitem;
+extern struct mimetype *mimecommon, *mimearr;
 
 static struct host *mk_lib_host_find(const char *name)
 {
