@@ -408,6 +408,8 @@ void mk_plugin_init()
     api->plugins = config->plugins;
 }
 
+#ifndef SHAREDLIB
+
 void mk_plugin_read_config()
 {
     int ret;
@@ -496,6 +498,8 @@ void mk_plugin_read_config()
     mk_mem_free(path);
     mk_config_free(cnf);
 }
+
+#endif //!SHAREDLIB
 
 /* Invoke all plugins 'exit' hook and free resources by the plugin interface */
 void mk_plugin_exit_all()
