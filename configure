@@ -361,7 +361,7 @@ all: monkey.pc
 ifeq (\$(SHAREDLIB),1)
 	@echo Binary built, building the shared library.
 	@\$(MAKE) -s -C src binclean
-	@DEFS="-DSHAREDLIB -fPIC" \$(MAKE) -s -C src $SONAME
+	@DEFS="-DSHAREDLIB -fPIC" \$(MAKE) -s -C src lib
 	@touch bin/monkey
 endif
 	@\$(MAKE) -s -C plugins all
@@ -450,9 +450,11 @@ OBJ	= monkey.o mk_method.o mk_mimetype.o mk_request.o \\
 	mk_file.o mk_socket.o mk_clock.o mk_cache.o \\
 	mk_server.o mk_plugin.o mk_lib.o
 
-.PHONY: clean distclean binclean
+.PHONY: clean distclean binclean lib
 
 all: ../bin/monkey
+
+lib: $SONAME
 
 -include \$(OBJ:.o=.d)
 
