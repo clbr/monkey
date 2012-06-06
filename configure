@@ -328,10 +328,6 @@ rm -rf plugins.conf
 
 if [ -n "$sharedlib" ]; then
     incinstall="	install -m 644 src/include/public/* \$(INCDIR)"
-
-    # Set up the pkgconfig file
-    sed -e "s@PREFIX@$prefix@" -e "s@LIBDIR@$libdir@" -e "s@INCDIR@$incdir@" \
-    -e "s@VERSION@$VERSION@" monkey.pc.in > monkey.pc
 fi
 
 [ -n "$sharedlib" ] && libvar="SHAREDLIB=1"
@@ -349,9 +345,10 @@ SYSCONFDIR=\$(DESTDIR)${sysconfdir}
 DATADIR=\$(DESTDIR)${datadir}
 LOGDIR=\$(DESTDIR)${logdir}
 PLUGINDIR=\$(DESTDIR)${plugdir}
+VERSION=$VERSION
 $libvar
 
-all:
+all: monkey.pc
 	@\$(MAKE) -s -C src all
 ifeq (\$(SHAREDLIB),1)
 	@echo Binary built, building the shared library.
@@ -410,6 +407,10 @@ $incinstall
 	@echo
 	@echo  "  For more help use '-h' option"
 	@echo
+
+monkey.pc:
+	@sed -e "s@PREFIX@$prefix@" -e "s@LIBDIR@$libdir@" -e "s@INCDIR@$incdir@" \
+	    -e "s@VERSION@$VERSION@" monkey.pc.in > monkey.pc
 
 EOF
 }
