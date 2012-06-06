@@ -40,7 +40,8 @@ On success, returns a valid mklib_ctx. On failure NULL is returned.
 SEE ALSO
 --------
 *mklib_config*(3), *mklib_vhost_config*(3), *mklib_start*(3), *mklib_stop*(3), 
-*mklib_callback_set*(3), *mklib_vhost_list*(3), *mklib_scheduler_worker_info*(3)
+*mklib_callback_set*(3), *mklib_vhost_list*(3), *mklib_scheduler_worker_info*(3),
+*mklib_mimetype_add*(3)
 
 RESOURCES
 ---------
