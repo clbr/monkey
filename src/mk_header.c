@@ -38,7 +38,7 @@
 #include "mk_string.h"
 #include "mk_macros.h"
 
-static struct header_status_response status_response[] = {
+static const struct header_status_response status_response[] = {
 
     /*
      * The most used first:
@@ -199,7 +199,7 @@ static struct header_status_response status_response[] = {
     }
 };
 
-static int status_response_len =
+static const int status_response_len =
     (sizeof(status_response)/(sizeof(status_response[0])));
 
 static int mk_header_iov_add_entry(struct mk_iov *mk_io, mk_pointer data,
