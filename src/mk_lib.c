@@ -213,8 +213,6 @@ mklib_ctx mklib_init(const char *address, unsigned int port,
     mk_mem_pointers_init();
     mk_thread_keys_init();
 
-    mk_plugin_core_process();
-
     return a;
 
     out_config:
@@ -420,6 +418,8 @@ int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
 int mklib_start(mklib_ctx ctx)
 {
     if (!ctx || ctx->lib_running) return MKLIB_FALSE;
+
+    mk_plugin_core_process();
 
     ctx->workers = mk_mem_malloc_z(sizeof(pthread_t) * config->workers);
 
