@@ -56,7 +56,7 @@ static int mime_cmp(const void *m1, const void *m2)
 }
 
 /* Match mime type for requested resource */
-inline struct mimetype *mk_mimetype_lookup(char *name)
+inline struct mimetype *mk_mimetype_lookup(const char *name)
 {
     int i;
     struct mimetype tmp;
@@ -79,7 +79,7 @@ inline struct mimetype *mk_mimetype_lookup(char *name)
     return bsearch(&tmp, mimearr, mime_nitem, sizeof(struct mimetype), mime_cmp);
 }
 
-int mk_mimetype_add(char *name, char *type, int common)
+int mk_mimetype_add(const char *name, const char *type, const int common)
 {
     int len = strlen(type) + 3;
     struct mimetype new_mime;
