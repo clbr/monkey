@@ -161,8 +161,8 @@ main()
 
         echo
         echo -e "\033[1m=== Monkey Configuration ===\033[0m"
-        echo -e "PLATFORM\t= $platform"
-        echo -e "COMPILER\t= $CC"
+        echo -e "Platform\t= $platform"
+        echo -e "Compiler\t= $CC"
         echo -e "CFLAGS\t\t= $CFLAGS"
         echo -e "LDFLAGS\t\t= $LDFLAGS"
 
@@ -179,17 +179,17 @@ main()
 	[ -n "$relaxed_plugins" ] && echo "enabled" || echo "disabled"
 
         echo
-        echo -e "PREFIX\t\t= $prefix"
-        echo -e "BINDIR\t\t= $bindir"
-        echo -e "LIBDIR\t\t= $libdir"
-        echo -e "INCDIR\t\t= $incdir"
-        echo -e "SYSCONFDIR\t= $sysconfdir"
-        echo -e "DATADIR\t\t= $datadir"
-        echo -e "MANDIR\t\t= $mandir"
-        echo -e "LOGDIR\t\t= $logdir"
+        echo -e "Prefix\t\t= $prefix"
+        echo -e "Bindir\t\t= $bindir"
+        echo -e "Libdir\t\t= $libdir"
+        echo -e "Incdir\t\t= $incdir"
+        echo -e "Sysconfdir\t= $sysconfdir"
+        echo -e "Datadir\t\t= $datadir"
+        echo -e "Mandir\t\t= $mandir"
+        echo -e "Logdir\t\t= $logdir"
 
 	if [ "$plugdir" != "" ]; then
-            echo -e "PLUGDIR\t\t= $plugdir"
+            echo -e "Plugdir\t\t= $plugdir"
         fi
 
         echo
