@@ -361,6 +361,8 @@ void *mk_config_section_getval(struct mk_config_section *section, char *key, int
     return NULL;
 }
 
+#ifndef SHAREDLIB
+
 /* Read configuration files */
 static void mk_config_read_files(char *path_conf, char *file_conf)
 {
@@ -708,6 +710,33 @@ struct host *mk_config_get_host(char *path)
     return host;
 }
 
+/* read main configuration from monkey.conf */
+void mk_config_start_configure(void)
+{
+    unsigned long len;
+
+    mk_config_set_init_values();
+    mk_config_read_files(config->file_config, M_DEFAULT_CONFIG_FILE);
+
+    /* Load mimes */
+    mk_mimetype_read_config();
+
+    mk_pointer_reset(&config->server_software);
+
+    /* Basic server information */
+    if (config->hideversion == MK_FALSE) {
+        mk_string_build(&config->server_software.data,
+                        &len, "Monkey/%s (%s)", VERSION, OS);
+        config->server_software.len = len;
+    }
+    else {
+        mk_string_build(&config->server_software.data, &len, "Monkey Server");
+        config->server_software.len = len;
+    }
+}
+
+#endif // !SHAREDLIB
+
 void mk_config_set_init_values(void)
 {
     /* Init values */
@@ -754,31 +783,6 @@ void mk_config_set_init_values(void)
 
     /* Init plugin list */
     mk_list_init(config->plugins);
-}
-
-/* read main configuration from monkey.conf */
-void mk_config_start_configure(void)
-{
-    unsigned long len;
-
-    mk_config_set_init_values();
-    mk_config_read_files(config->file_config, M_DEFAULT_CONFIG_FILE);
-
-    /* Load mimes */
-    mk_mimetype_read_config();
-
-    mk_pointer_reset(&config->server_software);
-
-    /* Basic server information */
-    if (config->hideversion == MK_FALSE) {
-        mk_string_build(&config->server_software.data,
-                        &len, "Monkey/%s (%s)", VERSION, OS);
-        config->server_software.len = len;
-    }
-    else {
-        mk_string_build(&config->server_software.data, &len, "Monkey Server");
-        config->server_software.len = len;
-    }
 }
 
 int mk_config_host_find(mk_pointer host, struct host **vhost, struct host_alias **alias)
