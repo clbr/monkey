@@ -66,6 +66,8 @@ int mk_server_worker_capacity(int nworkers)
     return ((avl / 2) / nworkers);
 }
 
+#ifndef SHAREDLIB
+
 /* Here we launch the worker threads to attend clients */
 void mk_server_launch_workers()
 {
@@ -119,3 +121,5 @@ void mk_server_loop(int server_fd)
         }
     }
 }
+
+#endif // !SHAREDLIB
