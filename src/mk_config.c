@@ -45,14 +45,6 @@
 #include "mk_plugin.h"
 #include "mk_macros.h"
 
-/* Print a specific error */
-static void mk_config_print_error_msg(char *variable, char *path)
-{
-    mk_err("Error in %s variable under %s, has an invalid value",
-           variable, path);
-    exit(EXIT_FAILURE);
-}
-
 /* Raise a configuration schema error */
 void mk_config_error(const char *path, int line, const char *msg)
 {
@@ -362,6 +354,14 @@ void *mk_config_section_getval(struct mk_config_section *section, char *key, int
 }
 
 #ifndef SHAREDLIB
+
+/* Print a specific error */
+static void mk_config_print_error_msg(char *variable, char *path)
+{
+    mk_err("Error in %s variable under %s, has an invalid value",
+           variable, path);
+    exit(EXIT_FAILURE);
+}
 
 /* Read configuration files */
 static void mk_config_read_files(char *path_conf, char *file_conf)
