@@ -425,27 +425,28 @@ int mklib_start(mklib_ctx ctx)
     ctx->workers = mk_mem_malloc_z(sizeof(pthread_t) * config->workers);
 
     unsigned int i;
-    for (i = 0; i < config->workers; i++) {
+    const unsigned int workers = config->workers;
+    for (i = 0; i < workers; i++) {
         mk_sched_launch_thread(config->worker_capacity, &ctx->workers[i], ctx);
     }
 
     /* Wait until all workers report as ready */
     while (1) {
-        int ready = 0;
+        unsigned int ready = 0;
 
         pthread_mutex_lock(&mutex_worker_init);
-        for (i = 0; i < config->workers; i++) {
+        for (i = 0; i < workers; i++) {
             if (sched_list[i].initialized)
                 ready++;
         }
         pthread_mutex_unlock(&mutex_worker_init);
 
-        if (ready == config->workers) break;
+        if (ready == workers) break;
         usleep(10000);
     }
 
-    ctx->worker_info = mk_mem_malloc_z(sizeof(struct mklib_worker_info *) * (config->workers + 1));
-    for(i = 0; i < config->workers; i++) {
+    ctx->worker_info = mk_mem_malloc_z(sizeof(struct mklib_worker_info *) * (workers + 1));
+    for(i = 0; i < workers; i++) {
         ctx->worker_info[i] = mk_mem_malloc_z(sizeof(struct mklib_worker_info));
         ctx->worker_info[i]->pid = sched_list[i].pid;
     }
@@ -552,11 +553,12 @@ struct mklib_vhost **mklib_vhost_list(mklib_ctx ctx)
 struct mklib_worker_info **mklib_scheduler_worker_info(mklib_ctx ctx)
 {
     unsigned int i;
+    const unsigned int workers = config->workers;
 
     if (!ctx || !ctx->lib_running) return NULL;
 
 
-    for (i = 0; i < config->workers; i++) {
+    for (i = 0; i < workers; i++) {
         ctx->worker_info[i]->active_connections = sched_list[i].accepted_connections -
                                                   sched_list[i].closed_connections;
     }
