@@ -36,6 +36,7 @@
 #include <mk_server.h>
 #include <stdarg.h>
 
+/* These are only needed here, not public for all of monkey */
 extern int mime_nitem;
 extern struct mimetype *mimecommon, *mimearr;
 
