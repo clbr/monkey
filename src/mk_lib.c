@@ -152,13 +152,19 @@ mklib_ctx mklib_init(const char *address, const unsigned int port,
     mk_sched_init();
     mk_plugin_init();
 
+    a->plugdir = PLUGDIR;
+
+    char tmppath[PATH_MAX];
+
     if (plugins & MKLIB_LIANA_SSL) {
         config->transport_layer = strdup("liana_ssl");
-        if (!load_networking(PLUGDIR"/monkey-liana_ssl.so")) goto out_config;
+        snprintf(tmppath, PATH_MAX, "%s/monkey-liana_ssl.so", a->plugdir);
+        if (!load_networking(tmppath)) goto out_config;
     }
     else {
         config->transport_layer = strdup("liana");
-        if (!load_networking(PLUGDIR"/monkey-liana.so")) goto out_config;
+        snprintf(tmppath, PATH_MAX, "%s/monkey-liana.so", a->plugdir);
+        if (!load_networking(tmppath)) goto out_config;
     }
 
     if (!plg_netiomap) goto out_config;

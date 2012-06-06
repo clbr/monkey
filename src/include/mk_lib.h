@@ -37,6 +37,8 @@ struct mklib_ctx_t {
 
     struct mklib_worker_info **worker_info;
 
+    const char *plugdir;
+
     int lib_running;
 };
 
