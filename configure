@@ -170,6 +170,14 @@ main()
             echo -e "DEFS\t\t= $DEFS"
         fi
 
+	echo
+
+	echo -en "Shared library\t= "
+	[ -n "$sharedlib" ] && echo "enabled" || echo "disabled"
+
+	echo -en "Relaxed plugins\t= "
+	[ -n "$relaxed_plugins" ] && echo "enabled" || echo "disabled"
+
         echo
         echo -e "PREFIX\t\t= $prefix"
         echo -e "BINDIR\t\t= $bindir"
@@ -842,6 +850,9 @@ for arg in $*; do
 		--enable-shared*)
 			sharedlib=1
 			;;
+		--enable-relaxed-plugins*)
+			relaxed_plugins=1
+			;;
                 --enable-plugins*)
                 	enabled_plugins=$optarg
                         ;;
@@ -886,7 +897,11 @@ for arg in $*; do
 			echo "  --debug                 Compile Monkey with debugging symbols"
 			echo "  --trace                 Enable trace messages (don't use in production)"
                         echo "  --platform=PLATFORM     Target platform: 'generic' or 'android' (default: generic)"
-                        echo "  --enable-shared         Build Monkey as a shared library instead of a stand-alone server"
+			echo
+			echo "Shared library options:"
+                        echo "  --enable-shared         Build Monkey as a shared library in addition to a stand-alone server"
+                        echo "  --enable-relaxed-plugins Allow the application to make the library load arbitrary plugins."
+                        echo "                          WARNING security risk, do not enable in distro packages!"
 			echo
                         echo "Installation Directories:"
 			echo "  --prefix=PREFIX         Root prefix directory"
