@@ -40,7 +40,7 @@
 extern int mime_nitem;
 extern struct mimetype *mimecommon, *mimearr;
 
-static struct host *mk_lib_host_find(const char *name)
+static struct host *mklib_host_find(const char *name)
 {
     struct host *entry_host;
     const struct mk_list *head_vhost;
@@ -342,10 +342,10 @@ int mklib_vhost_config(mklib_ctx ctx, const char *name, ...)
     if (!ctx) return MKLIB_FALSE;
 
     /* Does it exist already? */
-    struct host *h = mk_lib_host_find(name);
+    struct host *h = mklib_host_find(name);
     if (h) return MKLIB_FALSE;
 
-    const struct host *defaulth = mk_lib_host_find("default");
+    const struct host *defaulth = mklib_host_find("default");
     if (!defaulth) return MKLIB_FALSE;
 
 
