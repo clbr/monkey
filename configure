@@ -963,6 +963,8 @@ if test -z "$STRIP" ; then
     STRIP="strip"
 fi
 
+[ -n "$relaxed_plugins" ] && DEFS="$DEFS -DRELAXED_PLUGINS"
+
 if test -z "$debug" ; then
     CFLAGS="$CFLAGS -O2 -Wall"
 else
