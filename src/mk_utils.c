@@ -456,6 +456,8 @@ int mk_utils_print_errno(int n)
 
 #endif
 
+#ifndef SHAREDLIB
+
 /* Write Monkey's PID */
 int mk_utils_register_pid()
 {
@@ -521,6 +523,8 @@ int mk_utils_remove_pid()
     config->pid_status = MK_FALSE;
     return 0;
 }
+
+#endif // !SHAREDLIB
 
 void mk_print(int type, const char *format, ...)
 {
