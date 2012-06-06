@@ -491,7 +491,7 @@ struct mklib_vhost **mklib_vhost_list(mklib_ctx ctx)
     struct host_alias *alias;
     struct mk_list *head_vhost, *head_aliases;
     unsigned int i, total = 0, namecount;
-    char *names[50];
+    const char *names[50];
 
     if (!ctx) return NULL;
 
