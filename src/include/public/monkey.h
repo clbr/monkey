@@ -138,11 +138,11 @@ typedef void (*cb_close)(const mklib_session *);
  * With no plugins, default to MKLIB_LIANA only.
  * With no documentroot, the default vhost won't access files.
  */
-mklib_ctx MK_EXPORT mklib_init(const char *address, unsigned int port,
-                               unsigned int plugins, const char *documentroot);
+mklib_ctx MK_EXPORT mklib_init(const char *address, const unsigned int port,
+                               const unsigned int plugins, const char *documentroot);
 
 /* Set the callbacks. */
-int MK_EXPORT mklib_callback_set(mklib_ctx, enum mklib_cb, void *);
+int MK_EXPORT mklib_callback_set(mklib_ctx, const enum mklib_cb, void *);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */
@@ -150,7 +150,7 @@ int MK_EXPORT mklib_config(mklib_ctx, ...);
 
 /* NULL-terminated config call creating a vhost with *name. Returns MKLIB_FALSE
  * on failure. */
-int MK_EXPORT mklib_vhost_config(mklib_ctx, char *name, ...);
+int MK_EXPORT mklib_vhost_config(mklib_ctx, const char *name, ...);
 
 /* Start the server. */
 int MK_EXPORT mklib_start(mklib_ctx);
@@ -168,7 +168,7 @@ struct mklib_worker_info MK_EXPORT **mklib_scheduler_worker_info(mklib_ctx);
 struct mklib_mime MK_EXPORT **mklib_mimetype_list(mklib_ctx);
 
 /* Add a new mimetype */
-int MK_EXPORT mklib_mimetype_add(mklib_ctx, char *, char *);
+int MK_EXPORT mklib_mimetype_add(mklib_ctx, const char *, const char *);
 
 #define mklib_vhost_foreach(cur, list) for(cur = *list++; cur; cur = *list++)
 #define mklib_worker_info_foreach(cur, list) mklib_vhost_foreach(cur, list)

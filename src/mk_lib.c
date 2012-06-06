@@ -43,7 +43,7 @@ extern struct mimetype *mimecommon, *mimearr;
 static struct host *mk_lib_host_find(const char *name)
 {
     struct host *entry_host;
-    struct mk_list *head_vhost;
+    const struct mk_list *head_vhost;
 
     mk_list_foreach(head_vhost, &config->hosts) {
         entry_host = mk_list_entry(head_vhost, struct host, _head);
@@ -58,7 +58,7 @@ static struct host *mk_lib_host_find(const char *name)
 static void mklib_run(void *p)
 {
     int remote_fd, ret;
-    mklib_ctx ctx = p;
+    const mklib_ctx ctx = p;
 
     mk_utils_worker_rename("libmonkey");
     mk_socket_set_tcp_defer_accept(config->server_fd);
@@ -78,7 +78,7 @@ static void mklib_run(void *p)
     }
 }
 
-static int load_networking(char *path)
+static int load_networking(const char *path)
 {
     void *handle;
     struct plugin *p;
@@ -104,7 +104,7 @@ static int load_networking(char *path)
     return MKLIB_TRUE;
 }
 
-int mklib_callback_set(mklib_ctx ctx, enum mklib_cb cb, void *func)
+int mklib_callback_set(mklib_ctx ctx, const enum mklib_cb cb, void *func)
 {
     /* Function is allowed to be NULL, to reset it) */
     if (!ctx || !cb || ctx->lib_running) return MKLIB_FALSE;
@@ -138,8 +138,8 @@ int mklib_callback_set(mklib_ctx ctx, enum mklib_cb cb, void *func)
  * With no plugins, default to MKLIB_LIANA only.
  * With no documentroot, the default vhost won't access files.
  */
-mklib_ctx mklib_init(const char *address, unsigned int port,
-                     unsigned int plugins, const char *documentroot)
+mklib_ctx mklib_init(const char *address, const unsigned int port,
+                     const unsigned int plugins, const char *documentroot)
 {
     mklib_ctx a = mk_mem_malloc_z(sizeof(struct mklib_ctx_t));
     if (!a) return NULL;
@@ -337,7 +337,7 @@ int mklib_config(mklib_ctx ctx, ...)
 
 /* NULL-terminated config call creating a vhost with *name. Returns MKLIB_FALSE
  * on failure. */
-int mklib_vhost_config(mklib_ctx ctx, char *name, ...)
+int mklib_vhost_config(mklib_ctx ctx, const char *name, ...)
 {
     if (!ctx) return MKLIB_FALSE;
 
@@ -601,7 +601,7 @@ struct mklib_mime **mklib_mimetype_list(mklib_ctx ctx)
 }
 
 /* Add a new mimetype */
-int mklib_mimetype_add(mklib_ctx ctx, char *name, char *type)
+int mklib_mimetype_add(mklib_ctx ctx, const char *name, const char *type)
 {
     if (!ctx || !name || !type) return MKLIB_FALSE;
 
