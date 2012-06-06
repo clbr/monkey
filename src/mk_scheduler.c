@@ -167,8 +167,10 @@ static void *mk_sched_launch_worker_loop(void *thread_conf)
     struct sched_list_node *thinfo = NULL;
     mk_epoll_handlers *handler;
 
+#ifndef SHAREDLIB
     /* Avoid SIGPIPE signals */
     mk_signal_thread_sigpipe_safe();
+#endif
 
     /* Init specific thread cache */
     mk_sched_thread_lists_init();
