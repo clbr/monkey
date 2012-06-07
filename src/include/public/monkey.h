@@ -22,6 +22,12 @@
 
 #include <pthread.h>
 
+#ifdef __GNUC__
+ #define NULL_TERMINATED __attribute__ ((sentinel))
+#else
+ #define NULL_TERMINATED
+#endif
+
 /* For the internal build */
 #ifdef SHAREDLIB
  #include <mk_macros.h>
@@ -146,11 +152,11 @@ int MK_EXPORT mklib_callback_set(mklib_ctx, const enum mklib_cb, void *);
 
 /* NULL-terminated config call, consisting of pairs of config item and argument.
  * Returns MKLIB_FALSE on failure. */
-int MK_EXPORT mklib_config(mklib_ctx, ...);
+int MK_EXPORT mklib_config(mklib_ctx, ...) NULL_TERMINATED;
 
 /* NULL-terminated config call creating a vhost with *name. Returns MKLIB_FALSE
  * on failure. */
-int MK_EXPORT mklib_vhost_config(mklib_ctx, const char *name, ...);
+int MK_EXPORT mklib_vhost_config(mklib_ctx, const char *name, ...) NULL_TERMINATED;
 
 /* Start the server. */
 int MK_EXPORT mklib_start(mklib_ctx);
