@@ -358,12 +358,6 @@ $libvar
 
 all: monkey.pc
 	@\$(MAKE) -s -C src all
-ifeq (\$(SHAREDLIB),1)
-	@echo Binary built, building the shared library.
-	@\$(MAKE) -s -C src binclean
-	@DEFS="-DSHAREDLIB -fPIC" \$(MAKE) -s -C src lib
-	@touch bin/monkey
-endif
 	@\$(MAKE) -s -C plugins all
 	@echo "  DONE"
 
@@ -433,12 +427,19 @@ elif [ $platform == "android" ]; then
     libs=""
 fi
 
+if [ -n "$sharedlib" ]; then
+	alltarget="../bin/monkey lib"
+else
+	alltarget="../bin/monkey"
+fi
+
 cat > src/Makefile<<EOF
 _PATH   = \$(patsubst \$(monkey_root)/%, %, \$(CURDIR))
 CC	= @echo "  CC   \$(_PATH)/\$@"; $CC
 CC_QUIET= @echo -n; $CC
 CFLAGS	= $CFLAGS
 DEFS    += $DEFS
+LIBDEFS = -DSHAREDLIB -fPIC \$(DEFS)
 INCDIR  = ./include
 LDFLAGS	= $LDFLAGS
 DESTDIR	= ../bin/monkey
@@ -449,10 +450,11 @@ OBJ	= monkey.o mk_method.o mk_mimetype.o mk_request.o \\
 	mk_string.o mk_memory.o mk_connection.o mk_iov.o mk_http.o \\
 	mk_file.o mk_socket.o mk_clock.o mk_cache.o \\
 	mk_server.o mk_plugin.o mk_lib.o
+LIBOBJ  = \$(OBJ:.o=.lo)
 
-.PHONY: clean distclean binclean lib
+.PHONY: clean distclean lib
 
-all: ../bin/monkey
+all: $alltarget
 
 lib: $SONAME
 
@@ -461,15 +463,12 @@ lib: $SONAME
 ../bin/monkey: \$(OBJ)
 	\$(CC_QUIET) \$(CFLAGS) \$(DEFS) \$(LDFLAGS) -o \$@ \$(OBJ) $mod_obj \$(LIBS)
 
-$SONAME: \$(OBJ)
-	\$(CC_QUIET) \$(CFLAGS) \$(DEFS) \$(LDFLAGS) -Wl,-soname,$SONAME -shared -o \$@ \$(OBJ) $mod_obj \$(LIBS)
+$SONAME: \$(LIBOBJ)
+	\$(CC_QUIET) \$(CFLAGS) \$(LIBDEFS) \$(LDFLAGS) -Wl,-soname,$SONAME -shared -o \$@ \$(LIBOBJ) $mod_obj \$(LIBS)
 
 clean:
 	rm -rf *.[od] $SONAME
 	rm -rf ../bin/monkey
-
-binclean:
-	rm -rf *.o $SONAME
 
 distclean:
 	rm -rf *.o ../bin/* Makefile \\
@@ -480,6 +479,10 @@ distclean:
 .c.o:
 	\$(CC) -c \$(CFLAGS) \$(DEFS) -I\$(INCDIR) \$<
 	\$(CC_QUIET) -MM -MP \$(CFLAGS) \$(DEFS) -I\$(INCDIR) \$*.c -o \$*.d > /dev/null &2>&1
+
+%.lo : %.c
+	\$(CC) -c -o \$@ \$(CFLAGS) \$(LIBDEFS) -I\$(INCDIR) \$<
+
 EOF
 }
 
