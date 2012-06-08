@@ -177,7 +177,7 @@ struct mk_list *mk_string_split_line(const char *line)
         if (end >= 0 && end + i < len) {
             end += i;
 
-            if (i == end) {
+            if (i == (unsigned int) end) {
                 i++;
                 continue;
             }
