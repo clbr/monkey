@@ -467,7 +467,7 @@ $SONAME: \$(LIBOBJ)
 	\$(CC_QUIET) \$(CFLAGS) \$(LIBDEFS) \$(LDFLAGS) -Wl,-soname,$SONAME -shared -o \$@ \$(LIBOBJ) $mod_obj \$(LIBS)
 
 clean:
-	rm -rf *.[od] $SONAME
+	rm -rf *.[od] $SONAME *.lo
 	rm -rf ../bin/monkey
 
 distclean:
