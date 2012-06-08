@@ -221,7 +221,7 @@ static void *mk_sched_launch_worker_loop(void *thread_conf)
 /* Register thread information. The caller thread is the thread information's owner */
 int mk_sched_register_thread(int efd)
 {
-    int i;
+    unsigned int i;
     struct sched_connection *sched_conn, *array;
     struct sched_list_node *sl;
     static int wid = 0;
