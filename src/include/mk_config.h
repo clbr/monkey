@@ -172,7 +172,7 @@ struct host
 struct host_alias
 {
     char *name;
-    int len;
+    unsigned int len;
 
     struct mk_list _head;
 };
