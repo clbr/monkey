@@ -22,7 +22,7 @@
 
 #include <pthread.h>
 
-#ifdef __GNUC__
+#if __GNUC__ >= 4
  #define NULL_TERMINATED __attribute__ ((sentinel))
 #else
  #define NULL_TERMINATED
