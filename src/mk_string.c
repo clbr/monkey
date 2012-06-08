@@ -241,7 +241,11 @@ char *mk_string_build(char **buffer, unsigned long *len,
     length = vsnprintf(*buffer, alloc, format, ap);
     va_end(ap);
 
-    if (length >= alloc) {
+    if (length < 0) {
+        return NULL;
+    }
+
+    if ((unsigned int) length >= alloc) {
         ptr = realloc(*buffer, length + 1);
         if (!ptr) {
             return NULL;
@@ -252,10 +256,6 @@ char *mk_string_build(char **buffer, unsigned long *len,
         va_start(ap, format);
         length = vsnprintf(*buffer, alloc, format, ap);
         va_end(ap);
-    }
-
-    if (length < 0) {
-        return NULL;
     }
 
     ptr = *buffer;
