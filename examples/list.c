@@ -33,7 +33,8 @@ enum {
 static char buf[bufsize];
 
 static int list(const mklib_session *sr, const char *vhost, const char *url,
-		const char *get, const char *post,
+		const char *get, unsigned long getlen,
+		const char *post, unsigned long postlen,
 		unsigned int *status, const char **content, unsigned long *content_len,
 		char *header) {
 
@@ -62,6 +63,10 @@ static int list(const mklib_session *sr, const char *vhost, const char *url,
 	return MKLIB_TRUE;
 }
 
+/* The callback setting interface can't check the callback for compatibility.
+ * This makes sure the callback function has the right arguments. */
+static cb_data listf = list;
+
 int main() {
 
 	int ret;
@@ -69,8 +74,10 @@ int main() {
 	// Bind to all interfaces, port 2001, default plugins, no directory.
 	// Lacking the directory means that no files can be accessed, just what we want.
 	// We use the data callback.
-	mklib_ctx ctx = mklib_init(NULL, 0, 0, NULL, NULL, NULL, list, NULL);
+	mklib_ctx ctx = mklib_init(NULL, 0, 0, NULL);
 	if (!ctx) return 1;
+
+	mklib_callback_set(ctx, MKCB_DATA, listf);
 
 	// Start the server.
 	mklib_start(ctx);

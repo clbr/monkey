@@ -47,7 +47,7 @@ int main() {
 
 	// All defaults. Bind to all interfaces, port 2001, default plugins, /tmp.
 	// No callbacks are used.
-	mklib_ctx ctx = mklib_init(NULL, 0, 0, "/tmp", NULL, NULL, NULL, NULL);
+	mklib_ctx ctx = mklib_init(NULL, 0, 0, "/tmp");
 	if (!ctx) return 1;
 
 	// The default has no index files, let's set index.html as one.
