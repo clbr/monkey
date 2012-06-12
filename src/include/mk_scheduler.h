@@ -36,8 +36,8 @@
 
 struct sched_connection
 {
-    int status;
     int socket;
+    int status;
 
     time_t arrive_time;
 

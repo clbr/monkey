@@ -19,7 +19,7 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 __MONKEY__="1"
-__MONKEY_MINOR__="0"
+__MONKEY_MINOR__="1"
 __MONKEY_PATCHLEVEL__="0"
 
 VERSION="$__MONKEY__.$__MONKEY_MINOR__.$__MONKEY_PATCHLEVEL__"
@@ -552,7 +552,7 @@ create_makefile_plugins()
         MAKE_CLEAN="${MAKE_CLEAN}\t@(cd $plugin_dir && \$(MAKE) clean && cd ..)\n"
 
 
-        for d in `find . -type d`
+        for d in `find . -xtype d`
         do
             if [ -f "${d}/Makefile.in" ];
             then
@@ -583,13 +583,13 @@ create_makefile_plugins()
            cp -r $plugin_dir/conf/* $target/
 
            # Replace configuration variables:
-           find $target/* -type f -exec sed -i "s,#PREFIX#,$prefix," {} ';'
-           find $target/* -type f -exec sed -i "s,#BINDIR#,$bindir," {} ';'
-           find $target/* -type f -exec sed -i "s,#MANDIR#,$mandir," {} ';'
-           find $target/* -type f -exec sed -i "s,#SYSCONFDIR#,$sysconfdir," {} ';'
-           find $target/* -type f -exec sed -i "s,#DATADIR#,$datadir," {} ';'
-           find $target/* -type f -exec sed -i "s,#LOGDIR#,$logdir," {} ';'
-           find $target/* -type f -exec sed -i "s,#PLUGDIR#,$plugdir," {} ';'
+           find $target/* -xtype f -exec sed -i "s,#PREFIX#,$prefix," {} ';'
+           find $target/* -xtype f -exec sed -i "s,#BINDIR#,$bindir," {} ';'
+           find $target/* -xtype f -exec sed -i "s,#MANDIR#,$mandir," {} ';'
+           find $target/* -xtype f -exec sed -i "s,#SYSCONFDIR#,$sysconfdir," {} ';'
+           find $target/* -xtype f -exec sed -i "s,#DATADIR#,$datadir," {} ';'
+           find $target/* -xtype f -exec sed -i "s,#LOGDIR#,$logdir," {} ';'
+           find $target/* -xtype f -exec sed -i "s,#PLUGDIR#,$plugdir," {} ';'
         fi
 
         # Distribute binary scripts provided by plugins
