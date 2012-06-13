@@ -333,6 +333,7 @@ static int mk_dirhtml_theme_match_tag(char *content, char *tpl[])
     return -1;
 }
 
+#if 0 /* Debug function */
 /* return the number of valid tags found in text string */
 static int mk_dirhtml_content_count_tags(char *content, char *tpl[])
 {
@@ -359,6 +360,7 @@ static int mk_dirhtml_content_count_tags(char *content, char *tpl[])
     }
     return count;
 }
+#endif
 
 struct dirhtml_template *mk_dirhtml_template_create(char *content)
 {
@@ -470,6 +472,7 @@ struct dirhtml_template *mk_dirhtml_template_list_add(struct dirhtml_template **
     return (struct dirhtml_template *) node;
 }
 
+#if 0 /* Debug function */
 static int mk_dirhtml_tag_get_id(char *tpl_tags[], char *tag)
 {
     int i;
@@ -481,6 +484,7 @@ static int mk_dirhtml_tag_get_id(char *tpl_tags[], char *tag)
 
     return -1;
 }
+#endif
 
 static int mk_dirhtml_template_len(struct dirhtml_template *tpl)
 {
