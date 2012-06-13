@@ -267,7 +267,7 @@ int mk_sched_register_thread(int efd)
  * Create thread which will be listening
  * for incomings file descriptors
  */
-int mk_sched_launch_thread(int max_events, pthread_t *tout, mklib_ctx ctx)
+int mk_sched_launch_thread(int max_events, pthread_t *tout, mklib_ctx ctx UNUSED_PARAM)
 {
     int efd;
     pthread_t tid;

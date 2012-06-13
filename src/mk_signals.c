@@ -67,7 +67,7 @@ void mk_signal_thread_sigpipe_safe()
 }
 
 
-void mk_signal_handler(int signo, siginfo_t *si, void *context)
+void mk_signal_handler(int signo, siginfo_t *si, void *context UNUSED_PARAM)
 {
     switch (signo) {
     case SIGTERM:
