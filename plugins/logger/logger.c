@@ -106,7 +106,7 @@ static struct iov *mk_logger_get_cache()
     return pthread_getspecific(_mkp_data);
 }
 
-static void *mk_logger_worker_init(void *args)
+static void *mk_logger_worker_init(void *args UNUSED_PARAM)
 {
     int efd, max_events = mk_api->config->nhosts;
     int i, bytes, err;
@@ -343,7 +343,7 @@ void _mkp_exit()
     mk_api->mem_free(mk_logger_master_path);
 }
 
-int _mkp_core_prctx(struct server_config *config)
+int _mkp_core_prctx(struct server_config *config UNUSED_PARAM)
 {
     struct log_target *new;
     struct host *entry_host;

@@ -97,7 +97,7 @@ static void mk_cheetah_config(char *path)
     }
 }
 
-void *mk_cheetah_init(void *args)
+void *mk_cheetah_init(void *args UNUSED_PARAM)
 {
     /* Rename worker */
     mk_api->worker_rename("monkey: cheetah");

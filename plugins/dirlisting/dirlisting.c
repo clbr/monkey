@@ -840,7 +840,7 @@ void _mkp_exit()
 {
 }
 
-int _mkp_stage_30(struct plugin *plugin, struct client_session *cs, 
+int _mkp_stage_30(struct plugin *plugin UNUSED_PARAM, struct client_session *cs,
                   struct session_request *sr)
 {
     /* validate file_info */

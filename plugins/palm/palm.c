@@ -164,7 +164,7 @@ static int mk_palm_send_headers(struct mk_palm_request *pr)
     return n;
 }
 
-int _mkp_core_prctx(struct server_config *config)
+int _mkp_core_prctx(struct server_config *config UNUSED_PARAM)
 {
     /*
      * Server Address Lookup

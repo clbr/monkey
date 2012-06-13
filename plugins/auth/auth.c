@@ -100,7 +100,7 @@ static int mk_auth_validate_user(struct users_file *users,
     return -1;
 }
 
-int _mkp_init(struct plugin_api **api, char *confdir)
+int _mkp_init(struct plugin_api **api, char *confdir UNUSED_PARAM)
 {
     mk_api = *api;
 
@@ -133,7 +133,7 @@ void _mkp_core_thctx()
 }
 
 /* Object handler */
-int _mkp_stage_30(struct plugin *plugin, 
+int _mkp_stage_30(struct plugin *plugin UNUSED_PARAM,
                   struct client_session *cs, 
                   struct session_request *sr)
 {
