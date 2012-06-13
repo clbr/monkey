@@ -403,6 +403,8 @@ int _mkp_core_prctx(struct server_config *config)
     }
 
     mk_api->worker_spawn((void *) mk_logger_worker_init);
+
+    return 0;
 }
 
 void _mkp_core_thctx()

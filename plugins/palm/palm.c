@@ -192,6 +192,8 @@ int _mkp_core_prctx(struct server_config *config)
     mk_server_address.len = strlen(mk_server_address.data);
 
     PLUGIN_TRACE("Server Address Lookup '%s'", mk_server_address.data);
+
+    return 0;
 }
 
 void _mkp_core_thctx()
