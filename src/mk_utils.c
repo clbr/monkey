@@ -604,17 +604,7 @@ void mk_print(int type, const char *format, ...)
 
 pthread_t mk_utils_worker_spawn(void (*func) (void *))
 {
-    pthread_t tid;
-    pthread_attr_t thread_attr;
-
-    pthread_attr_init(&thread_attr);
-    pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_DETACHED);
-    if (pthread_create(&tid, &thread_attr, (void *) func, NULL) < 0) {
-        perror("pthread_create");
-        exit(EXIT_FAILURE);
-    }
-
-    return tid;
+    return mk_utils_worker_spawn_arg(func, NULL);
 }
 
 pthread_t mk_utils_worker_spawn_arg(void (*func) (void *), void *arg)
