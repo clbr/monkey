@@ -602,12 +602,7 @@ void mk_print(int type, const char *format, ...)
     fflush(stdout);
 }
 
-pthread_t mk_utils_worker_spawn(void (*func) (void *))
-{
-    return mk_utils_worker_spawn_arg(func, NULL);
-}
-
-pthread_t mk_utils_worker_spawn_arg(void (*func) (void *), void *arg)
+pthread_t mk_utils_worker_spawn(void (*func) (void *), void *arg)
 {
     pthread_t tid;
     pthread_attr_t thread_attr;

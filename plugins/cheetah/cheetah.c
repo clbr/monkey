@@ -136,6 +136,6 @@ void _mkp_exit()
 
 int _mkp_core_prctx(struct server_config *config)
 {
-    mk_api->worker_spawn_arg(mk_cheetah_init, config);
+    mk_api->worker_spawn(mk_cheetah_init, config);
     return 0;
 }

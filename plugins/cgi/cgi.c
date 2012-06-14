@@ -226,7 +226,7 @@ static int do_cgi(const char * const __restrict__ file, const char * const __res
         p.buf = sr->data.data;
         p.len = sr->data.len;
 
-        mk_api->worker_spawn_arg(cgi_write_post, &p);
+        mk_api->worker_spawn(cgi_write_post, &p);
     }
 
     char buf[PATHLEN], *outptr;

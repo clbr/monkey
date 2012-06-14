@@ -215,7 +215,7 @@ mklib_ctx mklib_init(const char *address, const unsigned int port,
 
     /* Clock thread */
     mk_clock_sequential_init();
-    a->clock = mk_utils_worker_spawn((void *) mk_clock_worker_init);
+    a->clock = mk_utils_worker_spawn((void *) mk_clock_worker_init, NULL);
 
     mk_mem_pointers_init();
     mk_thread_keys_init();
@@ -458,7 +458,7 @@ int mklib_start(mklib_ctx ctx)
     }
 
     ctx->lib_running = 1;
-    ctx->tid = mk_utils_worker_spawn_arg(mklib_run, ctx);
+    ctx->tid = mk_utils_worker_spawn(mklib_run, ctx);
 
     return MKLIB_TRUE;
 }
