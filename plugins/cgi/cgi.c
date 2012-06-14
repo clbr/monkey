@@ -320,7 +320,7 @@ void _mkp_exit()
     regfree(&match_regex);
 }
 
-int _mkp_stage_30(struct plugin *plugin, struct client_session *cs,
+int _mkp_stage_30(struct plugin *plugin UNUSED_PARAM, struct client_session *cs,
                   struct session_request *sr)
 {
     char *url = mk_api->mem_alloc_z(sr->uri.len + 1);
