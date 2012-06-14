@@ -389,6 +389,7 @@ void mk_plugin_init()
 
     /* Worker functions */
     api->worker_spawn = mk_utils_worker_spawn;
+    api->worker_spawn_arg = mk_utils_worker_spawn_arg;
     api->worker_rename = mk_utils_worker_rename;
 
     /* Time functions */
