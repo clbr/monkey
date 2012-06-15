@@ -106,7 +106,7 @@ static struct iov *mk_logger_get_cache()
     return pthread_getspecific(_mkp_data);
 }
 
-static void *mk_logger_worker_init(void *args UNUSED_PARAM)
+static void mk_logger_worker_init(void *args UNUSED_PARAM)
 {
     int efd, max_events = mk_api->config->nhosts;
     int i, bytes, err;
