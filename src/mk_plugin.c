@@ -74,7 +74,7 @@ void *mk_plugin_load_symbol(void *handler, const char *symbol)
     return s;
 }
 
-void mk_plugin_register_stagemap_add(struct plugin_stagem **stm, struct plugin *p)
+static void mk_plugin_register_stagemap_add(struct plugin_stagem **stm, struct plugin *p)
 {
     struct plugin_stagem *list, *new;
 
@@ -96,7 +96,7 @@ void mk_plugin_register_stagemap_add(struct plugin_stagem **stm, struct plugin *
     list->next = new;
 }
 
-void mk_plugin_register_stagemap(struct plugin *p)
+static void mk_plugin_register_stagemap(struct plugin *p)
 {
     /* Plugin to stages */
     if (p->hooks & MK_PLUGIN_STAGE_10) {
