@@ -357,7 +357,6 @@ int mk_plugin_http_request_end(int socket);
 
 /* Register functions */
 struct plugin *mk_plugin_register(struct plugin *p);
-void mk_plugin_unregister(struct plugin *p);
 
 struct plugin *mk_plugin_alloc(void *handler, const char *path);
 void mk_plugin_free(struct plugin *p);
