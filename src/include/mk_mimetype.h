@@ -39,7 +39,7 @@ enum {
     MIME_COMMON=10
 };
 
-struct mimetype *mimetype_default;
+extern struct mimetype *mimetype_default;
 
 int mk_mimetype_add(const char *name, const char *type, const int common);
 void mk_mimetype_read_config(void);

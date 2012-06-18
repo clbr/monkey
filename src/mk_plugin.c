@@ -40,7 +40,7 @@ enum {
 
 pthread_key_t mk_plugin_event_k;
 
-struct plugin_stagemap *plg_stagemap;
+static struct plugin_stagemap *plg_stagemap;
 struct plugin_network_io *plg_netiomap;
 struct plugin_api *api;
 
