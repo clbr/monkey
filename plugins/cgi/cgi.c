@@ -304,7 +304,7 @@ void _mkp_exit()
     free(requests_by_socket);
 }
 
-int _mkp_stage_30(struct plugin *plugin UNUSED_PARAM, struct client_session *cs,
+int _mkp_stage_30(struct plugin *plugin, struct client_session *cs,
                   struct session_request *sr)
 {
     char url[PATHLEN];
