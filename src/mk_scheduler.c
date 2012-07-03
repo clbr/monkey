@@ -231,6 +231,7 @@ static void *mk_sched_launch_worker_loop(void *thread_conf)
     wid = mk_sched_register_thread(thconf->epoll_fd);
 
     /* Plugin thread context calls */
+    mk_epoll_state_init();
     mk_plugin_event_init_list();
     mk_plugin_core_thread();
 
