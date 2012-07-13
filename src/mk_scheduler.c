@@ -272,7 +272,7 @@ int mk_sched_launch_thread(int max_events, pthread_t *tout, mklib_ctx ctx UNUSED
 {
     int efd;
     pthread_t tid;
-    pthread_attr_t attr;
+     pthread_attr_t attr;
     sched_thread_conf *thconf;
 
     /* Creating epoll file descriptor */
