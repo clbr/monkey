@@ -45,6 +45,8 @@
 #include "mk_plugin.h"
 #include "mk_macros.h"
 
+struct server_config *config;
+
 /* Raise a configuration schema error */
 void mk_config_error(const char *path, int line, const char *msg)
 {
