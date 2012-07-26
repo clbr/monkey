@@ -38,6 +38,12 @@ enum {
     bufsize = 256
 };
 
+pthread_key_t mk_plugin_event_k;
+
+struct plugin_stagemap *plg_stagemap;
+struct plugin_network_io *plg_netiomap;
+struct plugin_api *api;
+
 static int mk_plugin_event_set_list(struct mk_list *list)
 {
     return pthread_setspecific(mk_plugin_event_k, (void *) list);

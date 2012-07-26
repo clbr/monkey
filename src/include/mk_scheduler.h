@@ -65,7 +65,7 @@ struct sched_list_node
 #endif
 };
 
-struct sched_list_node *sched_list;
+extern struct sched_list_node *sched_list;
 
 /* Struct under thread context */
 typedef struct
@@ -78,7 +78,7 @@ typedef struct
 #endif
 } sched_thread_conf;
 
-pthread_key_t worker_sched_node;
+extern pthread_key_t worker_sched_node;
 
 extern pthread_mutex_t mutex_worker_init;
 

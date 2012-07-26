@@ -35,6 +35,14 @@
 #include "mk_utils.h"
 #include "mk_iov.h"
 
+mk_pointer mk_iov_crlf;
+mk_pointer mk_iov_crlfcrlf;
+mk_pointer mk_iov_lf;
+mk_pointer mk_iov_space;
+mk_pointer mk_iov_slash;
+mk_pointer mk_iov_none;
+mk_pointer mk_iov_equal;
+
 static void _mk_iov_set_free(struct mk_iov *mk_io, char *buf)
 {
     mk_io->buf_to_free[mk_io->buf_idx] = (char *) buf;
