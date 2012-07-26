@@ -403,7 +403,6 @@ int _mkp_core_prctx(struct server_config *config UNUSED_PARAM)
     }
 
     mk_api->worker_spawn((void *) mk_logger_worker_init, NULL);
-
     return 0;
 }
 

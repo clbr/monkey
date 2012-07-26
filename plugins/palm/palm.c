@@ -192,7 +192,6 @@ int _mkp_core_prctx(struct server_config *config UNUSED_PARAM)
     mk_server_address.len = strlen(mk_server_address.data);
 
     PLUGIN_TRACE("Server Address Lookup '%s'", mk_server_address.data);
-
     return 0;
 }
 
@@ -224,6 +223,7 @@ int _mkp_init(struct plugin_api **api, char *confdir)
     mk_server_port.len -= 2;
 
     /* iov separators */
+    mk_api->pointer_set(&mk_iov_none, "");
     mk_api->pointer_set(&mk_iov_empty, MK_IOV_NONE);
     mk_api->pointer_set(&mk_iov_crlf, MK_IOV_CRLF);
     mk_api->pointer_set(&mk_iov_crlfcrlf, MK_IOV_CRLFCRLF);
