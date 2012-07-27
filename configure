@@ -975,10 +975,10 @@ fi
 [ -n "$relaxed_plugins" ] && DEFS="$DEFS -DRELAXED_PLUGINS"
 
 if test -z "$debug" ; then
-    CFLAGS="$CFLAGS -O2 -Wall"
+    CFLAGS="$CFLAGS -O2 -Wall -Wextra"
 else
     DEFS="-DDEBUG -DSAFE_FREE"
-    CFLAGS="$CFLAGS -g -Wall"
+    CFLAGS="$CFLAGS -g -Wall -Wextra"
 fi
 CFLAGS="$CFLAGS -fvisibility=hidden"
 
