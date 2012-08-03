@@ -20,6 +20,10 @@
 #ifndef MK_MONKEYLIB_H
 #define MK_MONKEYLIB_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <pthread.h>
 
 #if __GNUC__ >= 4
@@ -179,5 +183,9 @@ int MK_EXPORT mklib_mimetype_add(mklib_ctx, const char *, const char *);
 #define mklib_vhost_foreach(cur, list) for(cur = *list++; cur; cur = *list++)
 #define mklib_worker_info_foreach(cur, list) mklib_vhost_foreach(cur, list)
 #define mklib_mimetype_foreach(cur, list) mklib_vhost_foreach(cur, list)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
