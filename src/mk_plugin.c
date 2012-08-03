@@ -288,6 +288,12 @@ create socket : %p\nbind : %p\nserver : %p",
     return p;
 }
 
+void mk_plugin_unregister(struct plugin *p)
+{
+    mk_list_del(&p->_head);
+    mk_plugin_free(p);
+}
+
 void mk_plugin_free(struct plugin *p)
 {
     mk_mem_free(p->path);
