@@ -35,6 +35,7 @@
 #include <mk_mimetype.h>
 #include <mk_server.h>
 #include <stdarg.h>
+#include <limits.h>
 
 /* These are only needed here, not public for all of monkey */
 extern int mime_nitem;
