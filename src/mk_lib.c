@@ -187,7 +187,7 @@ mklib_ctx mklib_init(const char *address, const unsigned int port,
                     "Server: %s", host->host_signature);
 
     struct host_alias *alias = mk_mem_malloc_z(sizeof(struct host_alias));
-    mk_string_build(&alias->name, &len, config->listen_addr);
+    alias->name = strdup(config->listen_addr);
     alias->len = strlen(config->listen_addr);
     mk_list_add(&alias->_head, &host->server_names);
 
