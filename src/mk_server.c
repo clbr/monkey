@@ -97,7 +97,7 @@ void mk_server_loop(int server_fd)
     while (1) {
         remote_fd = mk_socket_accept(server_fd);
 
-        if (remote_fd == -1) {
+        if (mk_unlikely(remote_fd == -1)) {
             continue;
         }
 
@@ -106,7 +106,7 @@ void mk_server_loop(int server_fd)
 
         int i;
         struct sched_list_node *node;
-        
+
         node = sched_list;
         for (i=0; i < config->workers; i++) {
             MK_TRACE("Worker Status");

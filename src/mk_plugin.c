@@ -304,6 +304,8 @@ void mk_plugin_free(struct plugin *p)
 void mk_plugin_init()
 {
     api = mk_mem_malloc_z(sizeof(struct plugin_api));
+    __builtin_prefetch(api);
+
     plg_stagemap = mk_mem_malloc_z(sizeof(struct plugin_stagemap));
     plg_netiomap = NULL;
 
