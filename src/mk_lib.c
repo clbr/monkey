@@ -516,8 +516,6 @@ struct mklib_vhost **mklib_vhost_list(mklib_ctx ctx)
     /* How many are there? */
     mk_list_foreach(head_vhost, &config->hosts) {
         total++;
-
-        entry_host = mk_list_entry(head_vhost, struct host, _head);
     }
     total++;
 
