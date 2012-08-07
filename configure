@@ -338,8 +338,6 @@ if [ -n "$sharedlib" ]; then
     incinstall="	install -m 644 src/include/public/* \$(INCDIR)"
 fi
 
-[ -n "$sharedlib" ] && libvar="SHAREDLIB=1"
-
 cat > Makefile <<EOF
 # Monkey HTTP Daemon: Makefile
 # ============================
@@ -354,7 +352,6 @@ DATADIR=\$(DESTDIR)${datadir}
 LOGDIR=\$(DESTDIR)${logdir}
 PLUGINDIR=\$(DESTDIR)${plugdir}
 VERSION=$VERSION
-$libvar
 
 all: monkey.pc
 	@\$(MAKE) -s -C src all
