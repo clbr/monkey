@@ -26,13 +26,13 @@
 #include <sys/mman.h>
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "monkey.h"
 
 #include "mk_macros.h"
 #include "mk_header.h"
 #include "mk_memory.h"
-#include "mk_utils.h"
 #include "mk_iov.h"
 
 const mk_pointer mk_iov_crlf = mk_pointer_init(MK_IOV_CRLF);

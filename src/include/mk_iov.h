@@ -22,8 +22,10 @@
 #ifndef MK_IOV_H
 #define MK_IOV_H
 
+#include <stdio.h>
 #include <sys/uio.h>
 #include "mk_utils.h"
+#include "mk_macros.h"
 
 #define MK_IOV_FREE_BUF 1
 #define MK_IOV_NOT_FREE_BUF 0
